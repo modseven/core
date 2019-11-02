@@ -1,0 +1,13 @@
+# Project files
+.idea
+nbproject
+*.iml
+out
+gen
+
+# Composer
+/vendor/
+composer.lock
+
+# Coverage reports etc..
+/build/*

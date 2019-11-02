@@ -1,0 +1,62 @@
+{
+  "name": "toitzi/modseven",
+  "description": "Modseven Framework - Koseven with PSR-4, Namespaces and slightly more modern.",
+  "license": "BSD-3-Clause",
+  "keywords": [
+    "kohana",
+    "kohana-php7",
+    "koseven",
+    "modseven"
+  ],
+  "authors": [
+    {
+      "name": "Tobias Oitzinger",
+      "role": "developer"
+    },
+    {
+      "name": "Koseven Team",
+      "homepage": "https://koseven.ga/",
+      "role": "developer"
+    },
+    {
+      "name": "Kohana Team",
+      "email": "team@kohanaframework.org",
+      "homepage": "http://kohanaframework.org/team",
+      "role": "developer"
+    }
+  ],
+  "support": {
+    "issues": "https://github.com/toitzi/modseven/issues"
+  },
+  "require": {
+    "php": ">=7.4",
+    "ext-dom": "*",
+    "psr/log": "1.1.*",
+    "ext-json": "*",
+    "ext-intl": "*",
+    "ext-yaml": "*",
+    "ext-http": "*",
+    "ext-ctype": "*",
+    "ext-iconv": "*",
+    "ext-mbstring": "*",
+    "ext-fileinfo": "*",
+    "ext-openssl": "*"
+  }
+  ,
+  "require-dev": {
+    "roave/security-advisories": "dev-master"
+  },
+  "autoload": {
+    "psr-4": {
+      "Modseven\\": "system/classes"
+    }
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "conflict": {
+    "kohana/core": "3.3.*"
+  },
+  "replace": {
+    "kohana/core": "3.3.*"
+  }
+}
