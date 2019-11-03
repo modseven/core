@@ -17,7 +17,7 @@ namespaces and PSR. As it does not since it needs to be compatible with "Kohana"
 
 __In development__, removing deprecated functions and fix code style.
 
-PSR Standards:
+PSR Standards to expect soon:
 
 | PSR | Description                 | Status                       |
 |-----|-----------------------------|------------------------------|
@@ -25,17 +25,19 @@ PSR Standards:
 |  3  | Logger Interface            | Implemented                  |
 |  4  | Autoloading Standard        | Implemented                  |
 |  6  | Caching Interface           | In Progress                  |
-|  7  | HTTP Message Interface      | In Progress                  |
-|  11 | Container Interface         | In Review                    |
+|  7  | HTTP Message Interface      | Not implemented but planned  |
 |  12 | Extended Coding Style Guide | Implemented                  |
 |  13 | Hypermedia Links            | Not implemented but planned  |
-|  14 | Event Dispatcher            | In Review                    |
-|  15 | HTTP Handlers               | In Review                    |
+|  15 | HTTP Handlers               | Not implemented but planned  |
 |  16 | Simple Cache                | In Progress                  |
-|  17 | HTTP Factories              | In Review                    |
-|  18 | HTTP Client                 | In Review                    |
+|  17 | HTTP Factories              | Not implemented but planned  |
+|  18 | HTTP Client                 | Not implemented but planned  |
 
-*Legend: In Review = check if will be implemented, In Progress = currently beeing worked on*
+*PSR Standards that will not make it into Modseven:*
+
+*PSR 11 (Container Interface) - No built in feature of Modseven*
+
+*PSR 14 (Event Dispatcher) - No built in feature of Modseven*
 
 ## When should i use this Project instead of Koseven
 
