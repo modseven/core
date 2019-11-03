@@ -21,13 +21,13 @@ PSR Standards:
 
 | PSR | Description                 | Status                       |
 |-----|-----------------------------|------------------------------|
-|  1  | Basic Coding Standard       | Implemented but not verified |
-|  3  | Logger Interface            | Implemented and verified     |
-|  4  | Autoloading Standard        | Implemented and verified     |
+|  1  | Basic Coding Standard       | Implemented                  |
+|  3  | Logger Interface            | Implemented                  |
+|  4  | Autoloading Standard        | Implemented                  |
 |  6  | Caching Interface           | In Progress                  |
 |  7  | HTTP Message Interface      | In Progress                  |
 |  11 | Container Interface         | In Review                    |
-|  12 | Extended Coding Style Guide | Implemented but not verified |
+|  12 | Extended Coding Style Guide | Implemented                  |
 |  13 | Hypermedia Links            | Not implemented but planned  |
 |  14 | Event Dispatcher            | In Review                    |
 |  15 | HTTP Handlers               | In Review                    |
