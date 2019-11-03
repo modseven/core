@@ -1,5 +1,5 @@
 {
-  "name": "toitzi/modseven",
+  "name": "modseven/core",
   "description": "Modseven Framework - Koseven with PSR-4, Namespaces and slightly more modern.",
   "license": "BSD-3-Clause",
   "keywords": [
