@@ -37,12 +37,6 @@ class Core
     public const FILE_CACHE = ":header \n\n// :name\n\n:data\n";
 
     /**
-     * Namespace of classes inside app folder
-     * @var string
-     */
-    public static string $app_ns;
-
-    /**
      * Current environment name
      * @var int
      */

@@ -131,10 +131,6 @@ if ($conf['cookie']['secure']) {
     \Modseven\Cookie::$secure = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on');
 }
 
-// Set the application name before initializing routes and add it to composer autoloader
-\Modseven\Core::$app_ns = $conf['name'];
-\Modseven\Core::register_module($conf['name'] . '\\', APPPATH . DIRECTORY_SEPARATOR . 'classes');
-
 // Bootstrap the application
 require APPPATH . 'routes.php';
 

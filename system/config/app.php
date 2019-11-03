@@ -1,7 +1,6 @@
 <?php
 
 return [
-    'name' => 'Application',
     'base_url' => '/',
     'index_file' => 'index.php',
     'charset' => 'utf-8',

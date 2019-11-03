@@ -1053,13 +1053,21 @@ class Request implements HTTP\Request
                 // Is this route external?
                 $this->_external = $this->_route->is_external();
 
+                // Namespaces are required in routes
+                if (!isset($params['namespace']))
+                {
+                    throw new Request\Exception('Please set a namespace for your route :route .', [
+                        ':route' => $this->_route
+                    ]);
+                }
+
+                // Store the namespace
+                $this->_namespace = $params['namespace'];
+
                 if (isset($params['directory'])) {
                     // Controllers are in a sub-directory
                     $this->_directory = $params['directory'];
                 }
-
-                // Store the namespace
-                $this->_namespace = $params['namespace'] ?? Core::$app_ns;
 
                 // Store the controller
                 $this->_controller = $params['controller'];
