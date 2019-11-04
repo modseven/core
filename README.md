@@ -1,9 +1,9 @@
 <p align="center"><b>Mod(ern)(Ko)seven Framework</b></p>
 
 <p align="center">
-  <a href="https://packagist.org/packages/toitzi/modseven"><img src="https://poser.pugx.org/toitzi/modseven/v/stable" /></a>
-  <a href="https://packagist.org/packages/toitzi/modseven"><img src="https://poser.pugx.org/toitzi/modseven/license.svg" /></a>
-  <a href="https://github.com/toitzi/modseven/issues"><img src="https://img.shields.io/github/issues/toitzi/modseven.svg" /></a>
+  <a href="https://packagist.org/packages/modseven/core"><img src="https://poser.pugx.org/modseven/core/v/stable" /></a>
+  <a href="https://packagist.org/packages/modseven/core"><img src="https://poser.pugx.org/modseven/core/license.svg" /></a>
+  <a href="https://github.com/modseven/core/issues"><img src="https://img.shields.io/github/issues/modseven/core.svg" /></a>
 </p>
 
 ## What is this project for?
