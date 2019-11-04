@@ -213,16 +213,28 @@ abstract class Session
      * be encoded.
      *
      * @return  string
+     *
+     * @throws Session\Exception
      */
     public function __toString(): string
     {
         // Serialize the data array
         $data = $this->_serialize($this->_data);
 
-        if ($this->_encrypted) {
+        if ($this->_encrypted)
+        {
             // Encrypt the data using the default key
-            $data = Encrypt::instance($this->_encrypted)->encode($data);
-        } else {
+            try
+            {
+                $data = Encrypt::instance($this->_encrypted)->encode($data);
+            }
+            catch (Encrypt\Exception $e)
+            {
+                throw new Session\Exception($e->getMessage(), null, $e->getCode(), $e);
+            }
+        }
+        else
+        {
             // Encode the data
             $data = $this->_encode($data);
         }
