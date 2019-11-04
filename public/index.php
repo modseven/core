@@ -3,10 +3,10 @@
 // The directory in which your application specific resources are located.
 $application = 'application';
 
-// The directory in which the Koseven core resources are located.
+// The directory in which the Modseven core resources are located.
 $system = 'system';
 
-// The directory in which the Koseven public files are located.
+// The directory in which the Modseven public files are located.
 $public = 'public';
 
 // Set the full path to the docroot
@@ -98,9 +98,9 @@ if (isset($_SERVER['SERVER_PROTOCOL'])) {
     \Modseven\HTTP::$protocol = $_SERVER['SERVER_PROTOCOL'];
 }
 
-// Set Modseven::$environment if a 'KOSEVEN_ENV' environment variable has been supplied.
-if (isset($_SERVER['KOSEVEN_ENV'])) {
-    \Modseven\Core::$environment = constant('Modseven::' . strtoupper($_SERVER['KOSEVEN_ENV']));
+// Set Modseven::$environment if a 'MODSEVEN_ENV' environment variable has been supplied.
+if (isset($_SERVER['MODSEVEN_ENV'])) {
+    \Modseven\Core::$environment = constant('\Modseven\Core::' . strtoupper($_SERVER['MODSEVEN_ENV']));
 }
 
 // Set the current configuration class

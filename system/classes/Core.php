@@ -37,7 +37,7 @@ class Core
      * Current environment name
      * @var int
      */
-    public static int $environment = Core::DEVELOPMENT;
+    public static int $environment = Core::PRODUCTION;
 
     /**
      * True if Modseven is running on windows
