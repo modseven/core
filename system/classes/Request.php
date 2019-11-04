@@ -1056,9 +1056,7 @@ class Request implements HTTP\Request
                 // Namespaces are required in routes
                 if (!isset($params['namespace']))
                 {
-                    throw new Request\Exception('Please set a namespace for your route :route .', [
-                        ':route' => $this->_route
-                    ]);
+                    throw new Request\Exception('Please set a namespace for your Route.');
                 }
 
                 // Store the namespace
