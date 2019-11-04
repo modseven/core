@@ -57,11 +57,14 @@ Also check the differences below.
 
 Although it is quite similar to Koseven there are a few changes:
 
-1. Namespaces - Modseven uses the namespace `KO7` for system files and is completely working with namespaces.
+1. Namespaces - Modseven uses the namespace `Modseven` for system files and is completely working with namespaces.
 2. Autoloader removed and moved to native composer PSR-4 autoloader.
 3. The `bootstrap.php` got moved. It's now called `routes.php` and only contains routes. Configuration is done via the `config/app.php` file.
-4. Transparent classes + CSF got removed, they are not needed since namespaces are used.
-6. Code formatting
+4. Transparent classes got removed, they are not needed since namespaces are used.
+5. The `Cache` and `Encrypt` Module are now core classes
+6. Koseven Deprecated Classes and functions got completley removed since we do not need them
+7. Code formatting, small bug fixes, micro optimizations, etc..
+8. CSF for configuration and templates is currently under review as i think of how i will implement those
 
 _Note: All patches and features introduced in original "Koseven" will also be patched here._
 
