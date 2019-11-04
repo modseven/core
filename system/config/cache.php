@@ -1,9 +1,19 @@
 <?php
 
 return [
-    /**
     'default'   => 'file',                             // allows to specify default cache directl from config file
     'prefix'    => 'cache1_',                          // used to avoid duplicates when using _sanitize_id
+    'file'      => [
+        'driver'           => \Modseven\Cache\File::class,
+        'cache_dir'        => APPPATH . 'cache',
+        'default_expire'   => 3600,
+        'ignore_on_delete' => [
+            '.gitignore',
+            '.git',
+            '.svn'
+        ]
+    ]
+    /**
     'memcached' => [
         'driver'  => \Modseven\Cache\Memcached::class,
         'servers' => [
@@ -22,16 +32,6 @@ return [
         'default_expire' => 3600,
         'database'       => APPPATH . 'cache' . DIRECTORY_SEPARATOR . 'modseven-cache.sql3',
         'schema'         => 'CREATE TABLE caches(id VARCHAR(127) PRIMARY KEY, tags VARCHAR(255), expiration INTEGER, cache TEXT)',
-    ],
-    'file'      => [
-        'driver'           => \Modseven\Cache\File::class,
-        'cache_dir'        => APPPATH . 'cache',
-        'default_expire'   => 3600,
-        'ignore_on_delete' => [
-            '.gitignore',
-            '.git',
-            '.svn'
-        ]
     ]
     **/
 ];

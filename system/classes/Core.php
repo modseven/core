@@ -33,9 +33,6 @@ class Core
     public const TESTING = 30;
     public const DEVELOPMENT = 40;
 
-    // Format of cache files: header, cache name, and data
-    public const FILE_CACHE = ":header \n\n// :name\n\n:data\n";
-
     /**
      * Current environment name
      * @var int
@@ -85,19 +82,7 @@ class Core
     public static string $index_file = 'index.php';
 
     /**
-     * Cache directory, used by [Modseven::cache]. Set by [Modseven::init]
-     * @var string
-     */
-    public static string $cache_dir;
-
-    /**
-     * Default lifetime for caching, in seconds, used by [Modseven::cache]. Set by [Modseven::init]
-     * @var integer
-     */
-    public static int $cache_life = 60;
-
-    /**
-     * Whether to use internal caching for [Modseven::find_file], does not apply to [Modseven::cache]. Set by [Modseven::init]
+     * Whether to use caching for internal application functions or not
      * @var boolean
      */
     public static bool $caching = false;
@@ -234,45 +219,16 @@ class Core
         // Determine if we are running in a Windows environment
         static::$is_windows = (DIRECTORY_SEPARATOR === '\\');
 
-        if (isset($settings['cache_dir'])) {
-            if (!is_dir($settings['cache_dir'])) {
-                // Create the cache directory
-                if (!mkdir($concurrentDirectory = $settings['cache_dir'], 0755,
-                        true) && !is_dir($concurrentDirectory)) {
-                    throw new Exception('Directory ":dir" was not created', [
-                        ':dir' => $concurrentDirectory
-                    ]);
-                }
-
-                // Set permissions (must be manually set to fix umask issues)
-                chmod($settings['cache_dir'], 0755);
-            }
-
-            // Set the cache directory path
-            static::$cache_dir = realpath($settings['cache_dir']);
-        } else {
-            // Use the default cache directory
-            static::$cache_dir = APPPATH . 'cache';
-        }
-
-        if (!is_writable(static::$cache_dir)) {
-            throw new Exception('Directory :dir must be writable',
-                [':dir' => Debug::path(static::$cache_dir)]);
-        }
-
-        if (isset($settings['cache_life'])) {
-            // Set the default cache lifetime
-            static::$cache_life = (int)$settings['cache_life'];
-        }
-
-        if (isset($settings['caching'])) {
+        if (isset($settings['caching']))
+        {
             // Enable or disable internal caching
             static::$caching = (bool)$settings['caching'];
         }
 
-        if (static::$caching === TRUE) {
+        if (static::$caching === TRUE)
+        {
             // Load the file path cache
-            static::$_files = self::cache('\Modseven\Core::find_file()');
+            static::$_files = self::cache('\Modseven\Core::find_file()') ?? [];
         }
 
         if (isset($settings['charset'])) {

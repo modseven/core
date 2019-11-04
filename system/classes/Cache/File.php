@@ -55,7 +55,7 @@ class File extends Cache implements GarbageCollect
      */
     protected function _check_cache_dir()
     {
-        $directory = Arr::get($this->_config, 'cache_dir', Core::$cache_dir);
+        $directory = Arr::get($this->_config, 'cache_dir', APPPATH . 'cache');
 
         try
         {
