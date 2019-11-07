@@ -231,7 +231,7 @@ use Modseven\I18n;
             <table>
                 <?php foreach ($included as $file): ?>
                     <tr>
-                        <td><code><?php echo Debug::path($file) ?></code></td>
+                        <td><code><?php echo $file ?></code></td>
                     </tr>
                 <?php endforeach ?>
             </table>
