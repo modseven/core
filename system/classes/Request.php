@@ -312,7 +312,7 @@ class Request implements HTTP\Request
 
             if ($uri === TRUE) {
                 // Attempt to guess the proper URI
-                $uri = self::detect_uri();
+                $uri = self::detectUri();
             }
 
             $cookies = [];
@@ -348,7 +348,7 @@ class Request implements HTTP\Request
 
             if (isset($requested_with)) {
                 // Apply the requested with variable
-                $request->requested_with($requested_with);
+                $request->requestedWith($requested_with);
             }
 
             if (isset($body)) {
@@ -373,7 +373,7 @@ class Request implements HTTP\Request
      * @return  string  URI of the main request
      * @throws  Exception
      */
-    public static function detect_uri(): string
+    public static function detectUri(): string
     {
         if (!empty($_SERVER['PATH_INFO'])) {
             // PATH_INFO does not contain the docroot or index
@@ -513,7 +513,7 @@ class Request implements HTTP\Request
      * @param string $requested_with Requested with value
      * @return  mixed
      */
-    public function requested_with(?string $requested_with = NULL)
+    public function requestedWith(?string $requested_with = NULL)
     {
         if ($requested_with === NULL) {
             // Act as a getter
@@ -607,9 +607,9 @@ class Request implements HTTP\Request
      *
      * @throws \Modseven\Exception
      */
-    public static function user_agent($value)
+    public static function userAgent($value)
     {
-        return Text::user_agent(static::$user_agent, $value);
+        return Text::userAgent(static::$user_agent, $value);
     }
 
     /**
@@ -621,7 +621,7 @@ class Request implements HTTP\Request
      *
      * @throws \Modseven\Exception
      */
-    public static function post_max_size_exceeded(): bool
+    public static function postMaxSizeExceeded(): bool
     {
         // Make sure the request method is POST
         if (static::$initial->method() !== HTTP\Request::POST) {
@@ -643,7 +643,7 @@ class Request implements HTTP\Request
      * @param array $accepts Default values
      * @return  array
      */
-    protected static function _parse_accept(string & $header, ?array $accepts = NULL): array
+    protected static function _parseAccept(string & $header, ?array $accepts = NULL): array
     {
         if (!empty($header)) {
             // Get all of the types
@@ -719,7 +719,7 @@ class Request implements HTTP\Request
         }
 
         // Set the content length
-        $this->headers('content-length', (string)$this->content_length());
+        $this->headers('content-length', (string)$this->contentLength());
 
         // If Modseven expose, set the user-agent
         if (Core::$expose) {
@@ -803,9 +803,9 @@ class Request implements HTTP\Request
             return $this;
         }
 
-        if ($this->_header->count() === 0 && $this->is_initial()) {
+        if ($this->_header->count() === 0 && $this->isInitial()) {
             // Lazy load the request headers
-            $this->_header = HTTP::request_headers();
+            $this->_header = HTTP::requestHeaders();
         }
 
         if ($key === NULL) {
@@ -829,7 +829,7 @@ class Request implements HTTP\Request
      *
      * @return  boolean
      */
-    public function is_initial(): bool
+    public function isInitial(): bool
     {
         return ($this === static::$initial);
     }
@@ -840,7 +840,7 @@ class Request implements HTTP\Request
      *
      * @return  integer
      */
-    public function content_length(): int
+    public function contentLength(): int
     {
         return strlen($this->body());
     }
@@ -875,7 +875,7 @@ class Request implements HTTP\Request
      */
     public function url($protocol = NULL): string
     {
-        if ($this->is_external()) {
+        if ($this->isExternal()) {
             // If it's an external request return the URI
             return $this->uri();
         }
@@ -889,7 +889,7 @@ class Request implements HTTP\Request
      *
      * @return  boolean
      */
-    public function is_external(): bool
+    public function isExternal(): bool
     {
         return $this->_external;
     }
@@ -1051,7 +1051,7 @@ class Request implements HTTP\Request
                 $params = $processed['params'];
 
                 // Is this route external?
-                $this->_external = $this->_route->is_external();
+                $this->_external = $this->_route->isExternal();
 
                 // Namespaces are required in routes
                 if (!isset($params['namespace']))
@@ -1085,7 +1085,7 @@ class Request implements HTTP\Request
             return HTTP\Exception::factory(404, 'Unable to find a route to match the URI: :uri', [
                 ':uri' => $this->_uri,
             ])->request($this)
-                ->get_response();
+                ->getResponse();
         }
 
         if (!$this->_client instanceof Request\Client) {
@@ -1112,7 +1112,7 @@ class Request implements HTTP\Request
 
         foreach ($routes as $route) {
             // Use external routes for reverse routing only
-            if ($route->is_external()) {
+            if ($route->isExternal()) {
                 continue;
             }
 
@@ -1133,9 +1133,9 @@ class Request implements HTTP\Request
      *
      * @return  boolean
      */
-    public function is_ajax(): bool
+    public function isAjax(): bool
     {
-        return ($this->requested_with() === 'xmlhttprequest');
+        return ($this->requestedWith() === 'xmlhttprequest');
     }
 
     /**

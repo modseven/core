@@ -17,8 +17,8 @@
 namespace Modseven\Request\Client;
 
 use Modseven\Request;
-use Modseven\Request\Exception;
 use Modseven\Response;
+use Modseven\Request\Exception;
 
 class Stream extends External
 {
@@ -33,7 +33,7 @@ class Stream extends External
      * @throws Exception
      *
      */
-    public function _send_message(Request $request, Response $response): Response
+    public function _sendMessage(Request $request, Response $response): Response
     {
         // Calculate stream mode
         $mode = ($request->method() === \Modseven\HTTP\Request::GET) ? 'r' : 'r+';
@@ -99,7 +99,7 @@ class Stream extends External
         $response_header = $response->headers();
 
         // Process headers
-        array_map([$response_header, 'parse_header_string'], [], $meta_data['wrapper_data']);
+        array_map([$response_header, 'parseHeaderString'], [], $meta_data['wrapper_data']);
 
         // Build the response
         $response->status($status)->protocol($protocol)->body(stream_get_contents($stream));

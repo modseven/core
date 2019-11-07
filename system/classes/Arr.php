@@ -71,7 +71,7 @@ class Arr
     {
         $found = [];
         foreach ($paths as $path) {
-            self::set_path($found, $path, self::path($array, $path, $default));
+            self::setPath($found, $path, self::path($array, $path, $default));
         }
 
         return $found;
@@ -85,7 +85,7 @@ class Arr
      * @param mixed $value Value to set
      * @param string $delimiter Path delimiter
      */
-    public static function set_path(array & $array, $path, $value, ?string $delimiter = NULL): void
+    public static function setPath(array & $array, $path, $value, ?string $delimiter = NULL): void
     {
         if (!$delimiter) {
             // Use the default delimiter
@@ -126,11 +126,12 @@ class Arr
      * @param mixed $path key path string (delimiter separated) or array of keys
      * @param mixed $default default value if the path is not set
      * @param string $delimiter key path delimiter
+     *
      * @return  mixed
      */
     public static function path(array $array, $path, $default = NULL, ?string $delimiter = NULL)
     {
-        if (!self::is_array($array)) {
+        if (!self::isArray($array)) {
             // This is not an array!
             return $default;
         }
@@ -169,7 +170,7 @@ class Arr
 
             if (isset($array[$key])) {
                 if ($keys) {
-                    if (self::is_array($array[$key])) {
+                    if (self::isArray($array[$key])) {
                         // Dig down into the next part of the path
                         $array = $array[$key];
                     } else {
@@ -212,9 +213,10 @@ class Arr
      * @param mixed $value value to check
      * @return  boolean
      */
-    public static function is_array($value): bool
+    public static function isArray($value): bool
     {
-        if (is_array($value)) {
+        if (is_array($value))
+        {
             // Definitely an array
             return TRUE;
         }
@@ -230,6 +232,7 @@ class Arr
      *
      * @param array $array list of arrays to check
      * @param string $key key to pluck
+     *
      * @return  array
      */
     public static function pluck(array $array, string $key): array
@@ -306,11 +309,12 @@ class Arr
      *
      * @param array $array1 initial array
      * @param array $array2,... array to merge
+     *
      * @return  array
      */
     public static function merge(array $array1, array $array2): array
     {
-        if (self::is_assoc($array2)) {
+        if (self::isAssoc($array2)) {
             foreach ($array2 as $key => $value) {
                 if (is_array($value)
                     && isset($array1[$key])
@@ -331,7 +335,7 @@ class Arr
 
         if (func_num_args() > 2) {
             foreach (array_slice(func_get_args(), 2) as $array3) {
-                if (self::is_assoc($array3)) {
+                if (self::isAssoc($array3)) {
                     foreach ($array3 as $key => $value) {
                         if (is_array($value)
                             && isset($array1[$key])
@@ -361,7 +365,7 @@ class Arr
      * @param array $array array to check
      * @return  boolean
      */
-    public static function is_assoc(array $array): bool
+    public static function isAssoc(array $array): bool
     {
         // Keys of the array
         $keys = array_keys($array);
@@ -441,7 +445,7 @@ class Arr
      */
     public static function flatten(array $array): array
     {
-        $is_assoc = self::is_assoc($array);
+        $is_assoc = self::isAssoc($array);
 
         $flat = [];
         foreach ($array as $key => $value) {

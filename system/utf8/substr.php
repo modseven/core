@@ -15,7 +15,7 @@ use Modseven\UTF8;
 
 function _substr($str, $offset, $length = NULL)
 {
-    if (UTF8::is_ascii($str)) {
+    if (UTF8::isAscii($str)) {
         return ($length === null) ? substr($str, $offset) : substr($str, $offset, $length);
     }
 

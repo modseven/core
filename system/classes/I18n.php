@@ -78,8 +78,8 @@ class I18n
         $values = [];
 
         // Check if $string is array [text, values]
-        if (Arr::is_array($string)) {
-            if (isset($string[1]) && Arr::is_array($string[1])) {
+        if (Arr::isArray($string)) {
+            if (isset($string[1]) && Arr::isArray($string[1])) {
                 $values = $string[1];
             }
             $string = $string[0];

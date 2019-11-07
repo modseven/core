@@ -15,7 +15,7 @@ use Modseven\UTF8;
 
 function _ucwords($str)
 {
-    if (UTF8::is_ascii($str)) {
+    if (UTF8::isAscii($str)) {
         return ucwords($str);
     }
 

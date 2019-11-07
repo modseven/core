@@ -208,7 +208,7 @@ class HTML
      *
      * @throws Exception
      */
-    public static function file_anchor(string $file, ?string $title = NULL, ?array $attributes = NULL, $protocol = NULL, bool $index = FALSE): string
+    public static function fileAnchor(string $file, ?string $title = NULL, ?array $attributes = NULL, $protocol = NULL, bool $index = FALSE): string
     {
         if ($title === NULL) {
             // Use the file name as the title

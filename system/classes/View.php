@@ -40,7 +40,7 @@ class View
     public function __construct(string $file = null, array $data = null)
     {
         if ($file !== null) {
-            $this->set_filename($file);
+            $this->setFilename($file);
         }
 
         if ($data !== null) {
@@ -59,7 +59,7 @@ class View
      * @return  self
      * @throws  View\Exception
      */
-    public function set_filename(string $file): self
+    public function setFilename(string $file): self
     {
         if (($path = Core::findFile('views', $file)) === false) {
             throw new View\Exception('The requested view :file could not be found', [
@@ -96,7 +96,7 @@ class View
      * @param string|array|Traversable $key variable name or an array of variables
      * @param mixed $value value
      */
-    public static function set_global($key, $value = null): void
+    public static function setGlobal($key, $value = null): void
     {
         if (is_array($key) || $key instanceof Traversable) {
             foreach ($key as $name => $val) {
@@ -114,7 +114,7 @@ class View
      * @param string $key variable name
      * @param mixed $value referenced variable
      */
-    public static function bind_global(string $key, & $value): void
+    public static function bindGlobal(string $key, & $value): void
     {
         static::$_global_data[$key] =& $value;
     }
@@ -243,7 +243,7 @@ class View
     public function render(string $file = null): string
     {
         if ($file !== null) {
-            $this->set_filename($file);
+            $this->setFilename($file);
         }
 
         if (empty($this->_file)) {

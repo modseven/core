@@ -94,7 +94,7 @@ class Profiler
      * @param mixed $groups single group name string, or array with group names; all groups by default
      * @return  array   min, max, average, total
      */
-    public static function group_stats($groups = NULL): array
+    public static function groupStats($groups = NULL): array
     {
         // Which groups do we need to calculate stats for?
         $groups = ($groups === NULL)
@@ -298,10 +298,10 @@ class Profiler
         }
 
         // Get the application run time
-        $time = microtime(TRUE) - Modseven_START_TIME;
+        $time = microtime(TRUE) - MODSEVEN_START_TIME;
 
         // Get the total memory usage
-        $memory = memory_get_usage() - Modseven_START_MEMORY;
+        $memory = memory_get_usage() - MODSEVEN_START_MEMORY;
 
         // Calculate max time
         if ($stats['max']['time'] === NULL || $time > $stats['max']['time']) {

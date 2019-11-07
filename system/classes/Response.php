@@ -267,7 +267,7 @@ class Response implements HTTP\Response
      * @param string $name
      * @return  self
      */
-    public function delete_cookie(string $name): self
+    public function deleteCookie(string $name): self
     {
         unset($this->_cookies[$name]);
         return $this;
@@ -278,7 +278,7 @@ class Response implements HTTP\Response
      *
      * @return  self
      */
-    public function delete_cookies(): self
+    public function deleteCookies(): self
     {
         $this->_cookies = [];
         return $this;
@@ -320,7 +320,7 @@ class Response implements HTTP\Response
      * @return  void
      * @throws  Exception
      */
-    public function send_file($filename, ?string $download = NULL, ?array $options = NULL): void
+    public function sendFile($filename, ?string $download = NULL, ?array $options = NULL): void
     {
         if (!empty($options['mime_type'])) {
             // The mime-type has been manually set
@@ -337,7 +337,7 @@ class Response implements HTTP\Response
 
             if (!isset($mime)) {
                 // Guess the mime using the file extension
-                $mime = File::mime_by_ext(strtolower(pathinfo($download, PATHINFO_EXTENSION)));
+                $mime = File::mimeByExt(strtolower(pathinfo($download, PATHINFO_EXTENSION)));
             }
 
             // Force the data to be rendered if
@@ -382,7 +382,7 @@ class Response implements HTTP\Response
 
             if (!isset($mime)) {
                 // Get the mime type from the extension of the download file
-                $mime = File::mime_by_ext(pathinfo($download, PATHINFO_EXTENSION));
+                $mime = File::mimeByExt(pathinfo($download, PATHINFO_EXTENSION));
             }
 
             // Open the file for reading
@@ -399,7 +399,7 @@ class Response implements HTTP\Response
         $disposition = empty($options['inline']) ? 'attachment' : 'inline';
 
         // Calculate byte range to download.
-        [$start, $end] = $this->_calculate_byte_range($size);
+        [$start, $end] = $this->_calculateByteRange($size);
 
         if (!empty($options['resumable'])) {
             if ($start > 0 || $end < ($size - 1)) {
@@ -417,21 +417,21 @@ class Response implements HTTP\Response
         $this->_header['content-type'] = $mime;
         $this->_header['content-length'] = (string)(($end - $start) + 1);
 
-        if (Request::user_agent('browser') === 'Internet Explorer') {
+        if (Request::userAgent('browser') === 'Internet Explorer') {
             // Naturally, IE does not act like a real browser...
             if (Request::$initial->secure()) {
                 // http://support.microsoft.com/kb/316431
                 $this->_header['pragma'] = $this->_header['cache-control'] = 'public';
             }
 
-            if (version_compare(Request::user_agent('version'), '8.0', '>=')) {
+            if (version_compare(Request::userAgent('version'), '8.0', '>=')) {
                 // http://ajaxian.com/archives/ie-8-security
                 $this->_header['x-content-type-options'] = 'nosniff';
             }
         }
 
         // Send all headers now
-        $this->send_headers();
+        $this->sendHeaders();
 
         while (ob_get_level()) {
             // Flush all output buffers
@@ -494,13 +494,13 @@ class Response implements HTTP\Response
      * @param integer $size
      * @return array
      */
-    protected function _calculate_byte_range(int $size): array
+    protected function _calculateByteRange(int $size): array
     {
         // Defaults to start with when the HTTP_RANGE header doesn't exist.
         $start = 0;
         $end = $size - 1;
 
-        if ($range = $this->_parse_byte_range()) {
+        if ($range = $this->_parseByteRange()) {
             // We have a byte range from HTTP_RANGE
             $start = $range[1];
 
@@ -535,7 +535,7 @@ class Response implements HTTP\Response
      * @link   http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.35
      * @return array|FALSE
      */
-    protected function _parse_byte_range()
+    protected function _parseByteRange()
     {
         if (!isset($_SERVER['HTTP_RANGE'])) {
             return FALSE;
@@ -557,9 +557,9 @@ class Response implements HTTP\Response
      *
      * @throws Exception
      */
-    public function send_headers(bool $replace = FALSE, $callback = NULL)
+    public function sendHeaders(bool $replace = FALSE, $callback = NULL)
     {
-        return $this->_header->send_headers($this, $replace, $callback);
+        return $this->_header->sendHeaders($this, $replace, $callback);
     }
 
     /**
@@ -569,7 +569,7 @@ class Response implements HTTP\Response
      * @return string Generated ETag
      * @throws Request\Exception
      */
-    public function generate_etag(): string
+    public function generateEtag(): string
     {
         if ($this->_body === '') {
             throw new Request\Exception('No response yet associated with request - cannot auto generate resource ETag');
@@ -596,7 +596,7 @@ class Response implements HTTP\Response
         }
 
         // Set the content length
-        $this->headers('content-length', (string)$this->content_length());
+        $this->headers('content-length', (string)$this->contentLength());
 
         // If Modseven expose, set the user-agent
         if (Core::$expose) {
@@ -637,7 +637,7 @@ class Response implements HTTP\Response
      *
      * @return  integer
      */
-    public function content_length(): int
+    public function contentLength(): int
     {
         return strlen($this->body());
     }

@@ -105,7 +105,7 @@ class Encrypt
     public function encode(string $data) : string
     {
         // Get an initialization vector
-        $iv = $this->_engine->create_iv();
+        $iv = $this->_engine->createIv();
 
         return $this->_engine->encrypt($data, $iv);
     }

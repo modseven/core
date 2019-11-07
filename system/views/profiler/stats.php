@@ -8,7 +8,7 @@ use Modseven\Profiler;
 use Modseven\I18n;
 use Modseven\HTML;
 
-$group_stats = Profiler::group_stats();
+$group_stats = Profiler::groupStats();
 $group_cols = ['min', 'max', 'average', 'total'];
 $application_cols = ['min', 'max', 'average', 'current'];
 ?>

@@ -75,6 +75,6 @@ abstract class Engine
      *
      * @return string
      */
-    abstract public function create_iv() : string;
+    abstract public function createIv() : string;
 
 }

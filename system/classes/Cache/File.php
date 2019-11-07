@@ -18,7 +18,6 @@ use UnexpectedValueException;
 
 use Modseven\Arr;
 use Modseven\Cache;
-use Modseven\Core;
 
 class File extends Cache implements GarbageCollect
 {
@@ -53,7 +52,7 @@ class File extends Cache implements GarbageCollect
      *
      * @throws  Exception
      */
-    protected function _check_cache_dir()
+    protected function _checkCacheDir()
     {
         $directory = Arr::get($this->_config, 'cache_dir', APPPATH . 'cache');
 
@@ -63,7 +62,7 @@ class File extends Cache implements GarbageCollect
         }
         catch (UnexpectedValueException $e)
         {
-            $this->_cache_dir = $this->_make_directory($directory, 0777, true);
+            $this->_cache_dir = $this->_makeDirectory($directory, 0777, true);
         }
 
         // If the defined directory is a file, get outta here
@@ -91,11 +90,11 @@ class File extends Cache implements GarbageCollect
     {
         if ( ! $this->_cache_dir_usable)
         {
-            $this->_check_cache_dir();
+            $this->_checkCacheDir();
         }
 
-        $filename = self::filename($this->_sanitize_id($id));
-        $directory = $this->_resolve_directory($filename);
+        $filename = self::filename($this->_sanitizeId($id));
+        $directory = $this->_resolveDirectory($filename);
 
         // Wrap operations in try/catch to handle notices
         try
@@ -111,10 +110,10 @@ class File extends Cache implements GarbageCollect
             }
 
             // Test the expiry
-            if ($this->_is_expired($file))
+            if ($this->_isExpired($file))
             {
                 // Delete the file
-                $this->_delete_file($file, false, true);
+                $this->_deleteFile($file, false, true);
                 return $default;
             }
 
@@ -154,11 +153,11 @@ class File extends Cache implements GarbageCollect
     {
         if ( ! $this->_cache_dir_usable)
         {
-            $this->_check_cache_dir();
+            $this->_checkCacheDir();
         }
 
-        $filename = self::filename($this->_sanitize_id($id));
-        $directory = $this->_resolve_directory($filename);
+        $filename = self::filename($this->_sanitizeId($id));
+        $directory = $this->_resolveDirectory($filename);
 
         // If lifetime is NULL
         if ($lifetime === null)
@@ -173,7 +172,7 @@ class File extends Cache implements GarbageCollect
         // If the directory path is not a directory
         if ( ! $dir->isDir())
         {
-            $this->_make_directory($directory, 0777, true);
+            $this->_makeDirectory($directory, 0777, true);
         }
 
         // Open file to inspect
@@ -206,13 +205,13 @@ class File extends Cache implements GarbageCollect
     {
         if ( ! $this->_cache_dir_usable)
         {
-            $this->_check_cache_dir();
+            $this->_checkCacheDir();
         }
 
-        $filename = self::filename($this->_sanitize_id($id));
-        $directory = $this->_resolve_directory($filename);
+        $filename = self::filename($this->_sanitizeId($id));
+        $directory = $this->_resolveDirectory($filename);
 
-        return $this->_delete_file(new SplFileInfo($directory . $filename), false, true);
+        return $this->_deleteFile(new SplFileInfo($directory . $filename), false, true);
     }
 
     /**
@@ -225,11 +224,11 @@ class File extends Cache implements GarbageCollect
      *
      * @throws Exception
      */
-    public function delete_all() : bool
+    public function deleteAll() : bool
     {
-        $this->_cache_dir_usable or $this->_check_cache_dir();
+        $this->_cache_dir_usable or $this->_checkCacheDir();
 
-        return $this->_delete_file($this->_cache_dir, true);
+        return $this->_deleteFile($this->_cache_dir, true);
     }
 
     /**
@@ -238,10 +237,10 @@ class File extends Cache implements GarbageCollect
      *
      * @throws Exception
      */
-    public function garbage_collect() : void
+    public function garbageCollect() : void
     {
-        $this->_cache_dir_usable or $this->_check_cache_dir();
-        $this->_delete_file($this->_cache_dir, true, false, true);
+        $this->_cache_dir_usable or $this->_checkCacheDir();
+        $this->_deleteFile($this->_cache_dir, true, false, true);
     }
 
     /**
@@ -256,7 +255,7 @@ class File extends Cache implements GarbageCollect
      *
      * @throws Exception
      */
-    protected function _delete_file(SplFileInfo $file, bool $retain_parent_directory = false, bool $ignore_errors = false, bool $only_expired = false) : bool
+    protected function _deleteFile(SplFileInfo $file, bool $retain_parent_directory = false, bool $ignore_errors = false, bool $only_expired = false) : bool
     {
         // Allow graceful error handling
         try
@@ -281,7 +280,7 @@ class File extends Cache implements GarbageCollect
                     else
                         {
                         // Assess the file expiry to flag it for deletion
-                        $delete = $this->_is_expired($file);
+                        $delete = $this->_isExpired($file);
                     }
 
                     // If the delete flag is set delete file
@@ -315,7 +314,7 @@ class File extends Cache implements GarbageCollect
                         // Create new file resource
                         $fp = new SplFileInfo($files->getRealPath());
                         // Delete the file
-                        $this->_delete_file($fp, $retain_parent_directory, $ignore_errors, $only_expired);
+                        $this->_deleteFile($fp, $retain_parent_directory, $ignore_errors, $only_expired);
                     }
 
                     // Move the file pointer on
@@ -370,7 +369,7 @@ class File extends Cache implements GarbageCollect
      *
      * @return string
      */
-    protected function _resolve_directory(string $filename) : string
+    protected function _resolveDirectory(string $filename) : string
     {
         return $this->_cache_dir->getRealPath() . DIRECTORY_SEPARATOR . $filename[0] . $filename[1] . DIRECTORY_SEPARATOR;
     }
@@ -388,7 +387,7 @@ class File extends Cache implements GarbageCollect
      *
      * @throws Exception
      */
-    protected function _make_directory(string $directory, int $mode = 0777, bool $recursive = false, $context = null) : SplFileInfo
+    protected function _makeDirectory(string $directory, int $mode = 0777, bool $recursive = false, $context = null) : SplFileInfo
     {
         // call mkdir according to the availability of a passed $context param
         $mkdir_result = $context ?
@@ -417,7 +416,7 @@ class File extends Cache implements GarbageCollect
      *
      * @throws Exception
      */
-    protected function _is_expired(SplFileInfo $file) : bool
+    protected function _isExpired(SplFileInfo $file) : bool
     {
         // Open the file and parse data
         $created = $file->getMTime();

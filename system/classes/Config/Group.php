@@ -57,7 +57,7 @@ class Group extends ArrayObject
      */
     public function __toString(): string
     {
-        return serialize($this->as_array());
+        return serialize($this->asArray());
     }
 
     /**
@@ -65,7 +65,7 @@ class Group extends ArrayObject
      *
      * @return array Array copy of the group's config
      */
-    public function as_array(): array
+    public function asArray(): array
     {
         return $this->getArrayCopy();
     }
@@ -75,7 +75,7 @@ class Group extends ArrayObject
      *
      * @return string The group name
      */
-    public function group_name(): string
+    public function groupName(): string
     {
         return $this->_group_name;
     }
@@ -116,7 +116,7 @@ class Group extends ArrayObject
      */
     public function offsetSet($key, $value): void
     {
-        $this->_parent_instance->_write_config($this->_group_name, $key, $value);
+        $this->_parent_instance->_writeConfig($this->_group_name, $key, $value);
 
         parent::offsetSet($key, $value);
     }

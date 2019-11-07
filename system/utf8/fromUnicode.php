@@ -22,7 +22,7 @@ use Modseven\UTF8\Exception;
  *
  * @throws Exception
  */
-function _from_unicode(array $arr)
+function _fromUnicode(array $arr)
 {
     ob_start();
 

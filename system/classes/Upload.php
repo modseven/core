@@ -167,7 +167,7 @@ class Upload
      */
     public static function image(array $file, ?int $max_width = NULL, ?int $max_height = NULL, bool $exact = FALSE): bool
     {
-        if (self::not_empty($file)) {
+        if (self::notEmpty($file)) {
 
             // Get the width and height from the uploaded image
             [$width, $height] = getimagesize($file['tmp_name']);
@@ -204,7 +204,7 @@ class Upload
      * @param array $file $_FILES item
      * @return  bool
      */
-    public static function not_empty(array $file): bool
+    public static function notEmpty(array $file): bool
     {
         return (isset($file['error'], $file['tmp_name'])
             && $file['error'] === UPLOAD_ERR_OK

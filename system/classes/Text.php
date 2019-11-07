@@ -63,7 +63,7 @@ class Text
      * @param string $end_char end character or entity
      * @return  string
      */
-    public static function limit_words(string $str, int $limit = 100, ?string $end_char = NULL): string
+    public static function limitWords(string $str, int $limit = 100, ?string $end_char = NULL): string
     {
         $end_char = $end_char ?? '…';
 
@@ -91,7 +91,7 @@ class Text
      * @param boolean $preserve_words enable or disable the preservation of words while limiting
      * @return  string
      */
-    public static function limit_chars(string $str, int $limit = 100, ?string $end_char = NULL, bool $preserve_words = FALSE): string
+    public static function limitChars(string $str, int $limit = 100, ?string $end_char = NULL, bool $preserve_words = FALSE): string
     {
         $end_char = $end_char ?? '…';
 
@@ -194,12 +194,12 @@ class Text
                 break;
             default:
                 $pool = (string)$type;
-                $utf8 = !UTF8::is_ascii($pool);
+                $utf8 = !UTF8::isAscii($pool);
                 break;
         }
 
         // Split the pool into an array of characters
-        $pool = ($utf8 === TRUE) ? UTF8::str_split($pool, 1) : str_split($pool, 1);
+        $pool = ($utf8 === TRUE) ? UTF8::strSplit($pool, 1) : str_split($pool, 1);
 
         // Largest pool key
         $max = count($pool) - 1;
@@ -245,7 +245,7 @@ class Text
      * @param string $str string to reduce slashes of
      * @return  string
      */
-    public static function reduce_slashes(string $str): string
+    public static function reduceSlashes(string $str): string
     {
         return preg_replace('#(?<!:)//+#', '/', $str);
     }
@@ -318,10 +318,10 @@ class Text
      * @param string $text text to auto link
      * @return  string
      */
-    public static function auto_link(string $text): string
+    public static function autoLink(string $text): string
     {
         // Auto link emails first to prevent problems with "www.domain.com@example.com"
-        return self::auto_link_urls(self::auto_link_emails($text));
+        return self::autoLinkUrls(self::autoLinkEmails($text));
     }
 
     /**
@@ -332,13 +332,13 @@ class Text
      * @param string $text text to auto link
      * @return  string
      */
-    public static function auto_link_urls(string $text): string
+    public static function autoLinkUrls(string $text): string
     {
         // Find and replace all http/https/ftp/ftps links that are not part of an existing html anchor
-        $text = preg_replace_callback('~\b(?<!href="|">)(?:ht|f)tps?://[^<\s]+(?:/|\b)~i', '\Modseven\Text::_auto_link_urls_callback1', $text);
+        $text = preg_replace_callback('~\b(?<!href="|">)(?:ht|f)tps?://[^<\s]+(?:/|\b)~i', '\Modseven\Text::_autoLinkUrlsCallback1', $text);
 
         // Find and replace all naked www.links.com (without http://)
-        return preg_replace_callback('~\b(?<!://|">)www(?:\.[a-z0-9][-a-z0-9]*+)+\.[a-z]{2,6}[^<\s]*\b~i', '\Modseven\Text::_auto_link_urls_callback2', $text);
+        return preg_replace_callback('~\b(?<!://|">)www(?:\.[a-z0-9][-a-z0-9]*+)+\.[a-z]{2,6}[^<\s]*\b~i', '\Modseven\Text::_autoLinkUrlsCallback2', $text);
     }
 
     /**
@@ -350,12 +350,12 @@ class Text
      * @param string $text text to auto link
      * @return  string
      */
-    public static function auto_link_emails(string $text): string
+    public static function autoLinkEmails(string $text): string
     {
         // Find and replace all email addresses that are not part of an existing html mailto anchor
         // Note: The "58;" negative lookbehind prevents matching of existing encoded html mailto anchors
         //       The html entity for a colon (:) is &#58; or &#058; or &#0058; etc.
-        return preg_replace_callback('~\b(?<!href="mailto:|58;)(?!\.)[-+_a-z0-9.]++(?<!\.)@(?![-.])[-a-z0-9.]+(?<!\.)\.[a-z]{2,6}\b(?!</a>)~i', '\Modseven\Text::_auto_link_emails_callback', $text);
+        return preg_replace_callback('~\b(?<!href="mailto:|58;)(?!\.)[-+_a-z0-9.]++(?<!\.)@(?![-.])[-a-z0-9.]+(?<!\.)\.[a-z]{2,6}\b(?!</a>)~i', '\Modseven\Text::_autoLinkEmailsCallback', $text);
     }
 
     /**
@@ -368,7 +368,7 @@ class Text
      * @param boolean $br convert single linebreaks to <br />
      * @return  string
      */
-    public static function auto_p(string $str, bool $br = TRUE): string
+    public static function autoP(string $str, bool $br = TRUE): string
     {
         // Trim whitespace
         if (($str = trim($str)) === '') {
@@ -541,13 +541,13 @@ class Text
      *
      * @throws \Modseven\Exception
      */
-    public static function user_agent(string $agent, $value)
+    public static function userAgent(string $agent, $value)
     {
         if (is_array($value)) {
             $data = [];
             foreach ($value as $part) {
                 // Add each part to the set
-                $data[$part] = self::user_agent($agent, $part);
+                $data[$part] = self::userAgent($agent, $part);
             }
 
             return $data;
@@ -596,7 +596,7 @@ class Text
      *
      * @throws \Modseven\Exception
      */
-    protected static function _auto_link_urls_callback1(array $matches) : string
+    protected static function _autoLinkUrlsCallback1(array $matches) : string
     {
         return HTML::anchor($matches[0]);
     }
@@ -610,12 +610,12 @@ class Text
      *
      * @throws \Modseven\Exception
      */
-    protected static function _auto_link_urls_callback2(array $matches) : string
+    protected static function _autoLinkUrlsCallback2(array $matches) : string
     {
         return HTML::anchor('http://' . $matches[0], $matches[0]);
     }
 
-    protected static function _auto_link_emails_callback(array $matches) : string
+    protected static function _autoLinkEmailsCallback(array $matches) : string
     {
         return HTML::mailto($matches[0]);
     }

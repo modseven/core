@@ -19,7 +19,7 @@ function _ltrim($str, $charlist = NULL)
         return ltrim($str);
     }
 
-    if (UTF8::is_ascii($charlist)) {
+    if (UTF8::isAscii($charlist)) {
         return ltrim($str, $charlist);
     }
 

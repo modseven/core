@@ -7,7 +7,7 @@ use Modseven\Controller;
 class Welcome extends Controller
 {
 
-    public function action_index()
+    public function index()
     {
         $this->response->body('hello, world!');
     }

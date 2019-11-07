@@ -36,7 +36,7 @@ class Valid
      * @param integer $length minimum length required
      * @return  boolean
      */
-    public static function min_length(string $value, int $length): bool
+    public static function minLength(string $value, int $length): bool
     {
         return UTF8::strlen($value) >= $length;
     }
@@ -48,7 +48,7 @@ class Valid
      * @param integer $length maximum length required
      * @return  boolean
      */
-    public static function max_length(string $value, int $length): bool
+    public static function maxLength(string $value, int $length): bool
     {
         return UTF8::strlen($value) <= $length;
     }
@@ -60,7 +60,7 @@ class Valid
      * @param integer|array $length exact length required, or array of valid lengths
      * @return  boolean
      */
-    public static function exact_length(string $value, $length): bool
+    public static function exactLength(string $value, $length): bool
     {
         if (is_array($length)) {
             foreach ($length as $strlen) {
@@ -112,10 +112,10 @@ class Valid
      * @param string $email email address
      * @return  boolean
      */
-    public static function email_domain(string $email): bool
+    public static function emailDomain(string $email): bool
     {
         // Empty fields cause issues with checkdnsrr()
-        if (!self::not_empty($email)) {
+        if (!self::notEmpty($email)) {
             return false;
         }
 
@@ -130,7 +130,7 @@ class Valid
      *
      * @return  boolean
      */
-    public static function not_empty($value): bool
+    public static function notEmpty($value): bool
     {
         if (is_object($value) && $value instanceof ArrayObject) {
             // Get the array from the ArrayObject
@@ -233,7 +233,7 @@ class Valid
      *
      * @throws Exception
      */
-    public static function credit_card(int $number, $type = NULL): bool
+    public static function creditCard(int $number, $type = NULL): bool
     {
         // Remove all non-digit characters from the number
         if (($number = preg_replace('/\D+/', '', $number)) === '') {
@@ -246,7 +246,7 @@ class Valid
         } elseif (is_array($type)) {
             foreach ($type as $t) {
                 // Test each type for validity
-                if (self::credit_card($number, $t)) {
+                if (self::creditCard($number, $t)) {
                     return true;
                 }
             }
@@ -375,7 +375,7 @@ class Valid
      * @param boolean $utf8 trigger UTF-8 compatibility
      * @return  boolean
      */
-    public static function alpha_numeric(string $str, bool $utf8 = FALSE): bool
+    public static function alphaNumeric(string $str, bool $utf8 = FALSE): bool
     {
         if ($utf8 === TRUE) {
             return (bool)preg_match('/^[\pL\pN]++$/uD', $str);
@@ -391,7 +391,7 @@ class Valid
      * @param boolean $utf8 trigger UTF-8 compatibility
      * @return  boolean
      */
-    public static function alpha_dash(string $str, bool $utf8 = FALSE): bool
+    public static function alphaDash(string $str, bool $utf8 = FALSE): bool
     {
         if ($utf8 === TRUE) {
             $regex = '/^[-\pL\pN_]++$/uD';

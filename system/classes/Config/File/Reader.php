@@ -14,8 +14,8 @@ namespace Modseven\Config\File;
 use JsonException;
 use Modseven\Core;
 use Modseven\Arr;
-use Modseven\Exception;
 use Modseven\Profiler;
+use Modseven\Exception;
 
 class Reader implements \Modseven\Config\Reader
 {
@@ -84,7 +84,7 @@ class Reader implements \Modseven\Config\Reader
             {
                 try
                 {
-                    $value = json_decode($this->read_from_ob($path), true, 512, JSON_THROW_ON_ERROR);
+                    $value = json_decode($this->readFromOb($path), true, 512, JSON_THROW_ON_ERROR);
                 }
                 catch (JsonException $e)
                 {
@@ -99,7 +99,7 @@ class Reader implements \Modseven\Config\Reader
                 {
                     throw new Exception('PECL Yaml Extension is required in order to parse YAML Config');
                 }
-                $value = yaml_parse($this->read_from_ob($path));
+                $value = yaml_parse($this->readFromOb($path));
             }
 
             // Merge config
@@ -131,7 +131,7 @@ class Reader implements \Modseven\Config\Reader
      *
      * @return false|string
      */
-    protected function read_from_ob(string $path)
+    protected function readFromOb(string $path)
     {
         // Start output buffer
         ob_start();

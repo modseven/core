@@ -13,11 +13,11 @@
 
 use Modseven\UTF8;
 
-function _str_split($str, $split_length = 1)
+function _strSplit($str, $split_length = 1)
 {
     $split_length = (int)$split_length;
 
-    if (UTF8::is_ascii($str)) {
+    if (UTF8::isAscii($str)) {
         return str_split($str, $split_length);
     }
 

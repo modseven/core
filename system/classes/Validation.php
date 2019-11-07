@@ -346,7 +346,7 @@ class Validation implements ArrayAccess
                 }
 
                 // Ignore return values from rules when the field is empty
-                if (!in_array($rule, $this->_empty_rules, true) && !Valid::not_empty($value)) {
+                if (!in_array($rule, $this->_empty_rules, true) && !Valid::notEmpty($value)) {
                     continue;
                 }
 

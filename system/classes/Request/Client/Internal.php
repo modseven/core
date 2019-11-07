@@ -32,7 +32,7 @@ class Internal extends Client
      *
      * @return  Response
      */
-    public function execute_request(Request $request, Response $response): Response
+    public function executeRequest(Request $request, Response $response): Response
     {
         // Controller
         $controller = $request->controller();
@@ -110,7 +110,7 @@ class Internal extends Client
             }
 
             // Get the response via the Exception
-            $response = $e->get_response();
+            $response = $e->getResponse();
         } catch (\Exception $e) {
             // Generate an appropriate Response object
             $response = Exception::_handler($e);

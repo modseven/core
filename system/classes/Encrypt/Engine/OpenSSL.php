@@ -151,13 +151,13 @@ class OpenSSL extends Engine
         // If the payload is not valid JSON or does not have the proper keys set we will
         // assume it is invalid and bail out of the routine since we will not be able
         // to decrypt the given value. We'll also check the MAC for this encryption.
-        if ( ! $this->valid_payload($data))
+        if ( ! $this->validPayload($data))
         {
             // Decryption failed
             return false;
         }
 
-        if ( ! $this->valid_mac($data))
+        if ( ! $this->validMac($data))
         {
             // Decryption failed
             return false;
@@ -194,7 +194,7 @@ class OpenSSL extends Engine
      *
      * @return bool
      */
-    protected function valid_payload(array $payload) : bool
+    protected function validPayload(array $payload) : bool
     {
         return isset($payload['iv'], $payload['value'], $payload['mac']) && strlen(base64_decode($payload['iv'], true)) === $this->_iv_size;
     }
@@ -208,9 +208,9 @@ class OpenSSL extends Engine
      *
      * @throws Exception
      */
-    protected function valid_mac(array $payload) : bool
+    protected function validMac(array $payload) : bool
     {
-        $bytes = $this->create_iv();
+        $bytes = $this->createIv();
 
         $calculated = hash_hmac('sha256', $this->hash($payload['iv'], $payload['value']), $bytes, true);
 
@@ -224,7 +224,7 @@ class OpenSSL extends Engine
      *
      * @throws Exception
      */
-    public function create_iv() : string
+    public function createIv() : string
     {
         try
         {

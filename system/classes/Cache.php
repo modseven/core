@@ -182,7 +182,7 @@ abstract class Cache
      *
      * @throws Exception
      */
-    protected function _sanitize_id(string $id): string
+    protected function _sanitizeId(string $id): string
     {
         // configuration for the specific cache group
         try
@@ -248,5 +248,5 @@ abstract class Cache
      *
      * @return  boolean
      */
-    abstract public function delete_all(): bool;
+    abstract public function deleteAll(): bool;
 }

@@ -97,8 +97,8 @@ class Config
     public function copy(string $group): self
     {
         // Load the configuration group
-        foreach ($this->load($group)->as_array() as $key => $value) {
-            $this->_write_config($group, $key, $value);
+        foreach ($this->load($group)->asArray() as $key => $value) {
+            $this->_writeConfig($group, $key, $value);
         }
 
         return $this;
@@ -165,7 +165,7 @@ class Config
      * @param mixed $value The new value
      * @return self
      */
-    public function _write_config(string $group, string $key, $value): self
+    public function _writeConfig(string $group, string $key, $value): self
     {
         foreach ($this->_sources as $source) {
             if (!($source instanceof Writer)) {

@@ -91,7 +91,7 @@ class Sqlite extends Cache implements Tagging, GarbageCollect
         // Try and load the cache based on id
         try
         {
-            $statement->execute([':id' => $this->_sanitize_id($id)]);
+            $statement->execute([':id' => $this->_sanitizeId($id)]);
         }
         catch (PDOException $e)
         {
@@ -139,7 +139,7 @@ class Sqlite extends Cache implements Tagging, GarbageCollect
      */
     public function set(string $id, $data, ?int $lifetime = null) : bool
     {
-        return $this->set_with_tags($id, $data, $lifetime);
+        return $this->setWithTags($id, $data, $lifetime);
     }
 
     /**
@@ -159,7 +159,7 @@ class Sqlite extends Cache implements Tagging, GarbageCollect
         // Remove the entry
         try
         {
-            $statement->execute([':id' => $this->_sanitize_id($id)]);
+            $statement->execute([':id' => $this->_sanitizeId($id)]);
         }
         catch (PDOException $e)
         {
@@ -178,7 +178,7 @@ class Sqlite extends Cache implements Tagging, GarbageCollect
      *
      * @throws Exception
      */
-    public function delete_all() : bool
+    public function deleteAll() : bool
     {
         // Prepare statement
         $statement = $this->_db->prepare('DELETE FROM caches');
@@ -210,7 +210,7 @@ class Sqlite extends Cache implements Tagging, GarbageCollect
      *
      * @throws Exception
      */
-    public function set_with_tags(string $id, $data, ?int $lifetime = null, ?array $tags = null) : bool
+    public function setWithTags(string $id, $data, ?int $lifetime = null, ?array $tags = null) : bool
     {
         // Serialize the data
         $data = serialize($data);
@@ -240,7 +240,7 @@ class Sqlite extends Cache implements Tagging, GarbageCollect
         try
         {
             $statement->execute([
-                ':id' => $this->_sanitize_id($id), ':cache' => $data, ':expiration' => $lifetime, ':tags' => $tags
+                ':id' => $this->_sanitizeId($id), ':cache' => $data, ':expiration' => $lifetime, ':tags' => $tags
             ]);
         }
         catch (PDOException $e)
@@ -262,7 +262,7 @@ class Sqlite extends Cache implements Tagging, GarbageCollect
      *
      * @throws Exception
      */
-    public function delete_tag(string $tag) : bool
+    public function deleteTag(string $tag) : bool
     {
         // Prepare the statement
         $statement = $this->_db->prepare('DELETE FROM caches WHERE tags LIKE :tag');
@@ -333,7 +333,7 @@ class Sqlite extends Cache implements Tagging, GarbageCollect
      *
      * @throws Exception
      */
-    public function garbage_collect() : void
+    public function garbageCollect() : void
     {
         // Create the sequel statement
         $statement = $this->_db->prepare('DELETE FROM caches WHERE expiration < :expiration');
@@ -364,7 +364,7 @@ class Sqlite extends Cache implements Tagging, GarbageCollect
         $statement = $this->_db->prepare('SELECT id FROM caches WHERE id = :id');
         try
         {
-            $statement->execute([':id' => $this->_sanitize_id($id)]);
+            $statement->execute([':id' => $this->_sanitizeId($id)]);
         }
         catch (PDOExeption $e)
         {

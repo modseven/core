@@ -36,7 +36,7 @@ class HTTP extends External
      * @throws Exception
      *
      */
-    public function _send_message(Request $request, Response $response): Response
+    public function _sendMessage(Request $request, Response $response): Response
     {
         // Instance a new Client
         $client = new Client;

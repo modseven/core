@@ -41,13 +41,13 @@ if (file_exists('install.php')) {
 }
 
 // Define the start time of the application, used for profiling.
-if (!defined('Modseven_START_TIME')) {
-    define('Modseven_START_TIME', microtime(true));
+if (!defined('MODSEVEN_START_TIME')) {
+    define('MODSEVEN_START_TIME', microtime(true));
 }
 
 // Define the memory usage at the start of the application, used for profiling.
-if (!defined('Modseven_START_MEMORY')) {
-    define('Modseven_START_MEMORY', memory_get_usage());
+if (!defined('MODSEVEN_START_MEMORY')) {
+    define('MODSEVEN_START_MEMORY', memory_get_usage());
 }
 
 ///////////////////////////////////////////////////////////////////
@@ -70,7 +70,7 @@ ini_set('unserialize_callback_func', 'spl_autoload_call');
 $config = new \Modseven\Config;
 $config->attach(new \Modseven\Config\File);
 try {
-    $conf = $config->load('app')->as_array();
+    $conf = $config->load('app')->asArray();
 } catch (\Modseven\Exception $e) {
     die('RuntimeError: Could not initialize Configuration ' . $e->getMessage());
 }
@@ -153,6 +153,6 @@ else
      */
     echo \Modseven\Request::factory(true, [], false)
         ->execute()
-        ->send_headers(true)
+        ->sendHeaders(true)
         ->body();
 }

@@ -63,9 +63,9 @@ class UTF8
             }
         } elseif (is_string($var) && $var !== '') {
             // Remove control characters
-            $var = self::strip_ascii_ctrl($var);
+            $var = self::stripAsciiCtrl($var);
 
-            if (!self::is_ascii($var)) {
+            if (!self::isAscii($var)) {
                 // Temporarily save the mb_substitute_character() value into a variable
                 $mb_substitute_character = mb_substitute_character();
 
@@ -89,7 +89,7 @@ class UTF8
      * @param string $str string to clean
      * @return  string
      */
-    public static function strip_ascii_ctrl(string $str): string
+    public static function stripAsciiCtrl(string $str): string
     {
         return preg_replace('/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]+/S', '', $str);
     }
@@ -101,7 +101,7 @@ class UTF8
      * @param mixed $str string or array of strings to check
      * @return  boolean
      */
-    public static function is_ascii($str): bool
+    public static function isAscii($str): bool
     {
         if (is_array($str)) {
             $str = implode($str);
@@ -116,7 +116,7 @@ class UTF8
      * @param string $str string to clean
      * @return  string
      */
-    public static function strip_non_ascii(string $str): string
+    public static function stripNonAscii(string $str): string
     {
         return preg_replace('/[^\x00-\x7F]+/S', '', $str);
     }
@@ -129,7 +129,7 @@ class UTF8
      * @return  string
      * @author  Andreas Gohr <andi@splitbrain.org>
      */
-    public static function transliterate_to_ascii(string $str, int $case = 0): string
+    public static function transliterateToAscii(string $str, int $case = 0): string
     {
         if (!isset(static::$called[__FUNCTION__])) {
             require Core::findFile('utf8', __FUNCTION__);
@@ -138,7 +138,7 @@ class UTF8
             static::$called[__FUNCTION__] = TRUE;
         }
 
-        return _transliterate_to_ascii($str, $case);
+        return _transliterateToAscii($str, $case);
     }
 
     /**
@@ -258,7 +258,7 @@ class UTF8
      * @return  string
      * @author  Harry Fuecks <hfuecks@gmail.com>
      */
-    public static function substr_replace(string $str, string $replacement, int $offset, ?int $length = NULL): string
+    public static function substrReplace(string $str, string $replacement, int $offset, ?int $length = NULL): string
     {
         if (!isset(static::$called[__FUNCTION__])) {
             require Core::findFile('utf8', __FUNCTION__);
@@ -267,7 +267,7 @@ class UTF8
             static::$called[__FUNCTION__] = TRUE;
         }
 
-        return _substr_replace($str, $replacement, $offset, $length);
+        return _substrReplace($str, $replacement, $offset, $length);
     }
 
     /**
@@ -414,7 +414,7 @@ class UTF8
      *
      * @throws Exception
      */
-    public static function str_ireplace($search, $replace, $str, ?int & $count = NULL)
+    public static function strIreplace($search, $replace, $str, ?int & $count = NULL)
     {
         if (!isset(static::$called[__FUNCTION__])) {
             require Core::findFile('utf8', __FUNCTION__);
@@ -423,7 +423,7 @@ class UTF8
             static::$called[__FUNCTION__] = TRUE;
         }
 
-        return _str_ireplace($search, $replace, $str, $count);
+        return _strIreplace($search, $replace, $str, $count);
     }
 
     /**
@@ -513,7 +513,7 @@ class UTF8
      *
      * @throws Exception
      */
-    public static function str_pad(string $str, int $final_str_length, string $pad_str = ' ', int $pad_type = STR_PAD_RIGHT): string
+    public static function strPad(string $str, int $final_str_length, string $pad_str = ' ', int $pad_type = STR_PAD_RIGHT): string
     {
         if (!isset(static::$called[__FUNCTION__])) {
             require Core::findFile('utf8', __FUNCTION__);
@@ -522,7 +522,7 @@ class UTF8
             static::$called[__FUNCTION__] = TRUE;
         }
 
-        return _str_pad($str, $final_str_length, $pad_str, $pad_type);
+        return _strPad($str, $final_str_length, $pad_str, $pad_type);
     }
 
     /**
@@ -534,7 +534,7 @@ class UTF8
      * @return  array
      * @author  Harry Fuecks <hfuecks@gmail.com>
      */
-    public static function str_split(string $str, int $split_length = 1): array
+    public static function strSplit(string $str, int $split_length = 1): array
     {
         if (!isset(static::$called[__FUNCTION__])) {
             require Core::findFile('utf8', __FUNCTION__);
@@ -543,7 +543,7 @@ class UTF8
             static::$called[__FUNCTION__] = TRUE;
         }
 
-        return _str_split($str, $split_length);
+        return _strSplit($str, $split_length);
     }
 
     /**
@@ -669,7 +669,7 @@ class UTF8
      *
      * @throws Exception
      */
-    public static function to_unicode(string $str)
+    public static function toUnicode(string $str)
     {
         if (!isset(static::$called[__FUNCTION__])) {
             require Core::findFile('utf8', __FUNCTION__);
@@ -678,7 +678,7 @@ class UTF8
             static::$called[__FUNCTION__] = TRUE;
         }
 
-        return _to_unicode($str);
+        return _toUnicode($str);
     }
 
     /**
@@ -698,7 +698,7 @@ class UTF8
      *
      * @throws Exception
      */
-    public static function from_unicode(array $arr)
+    public static function fromUnicode(array $arr)
     {
         if (!isset(static::$called[__FUNCTION__])) {
             require Core::findFile('utf8', __FUNCTION__);
@@ -707,7 +707,7 @@ class UTF8
             static::$called[__FUNCTION__] = TRUE;
         }
 
-        return _from_unicode($arr);
+        return _fromUnicode($arr);
     }
 
 }

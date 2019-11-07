@@ -24,7 +24,7 @@ use Modseven\UTF8;
  */
 function _strtoupper(string $str)
 {
-    if (UTF8::is_ascii($str)) {
+    if (UTF8::isAscii($str)) {
         return strtoupper($str);
     }
 
@@ -78,7 +78,7 @@ function _strtoupper(string $str)
         ];
     }
 
-    $uni = UTF8::to_unicode($str);
+    $uni = UTF8::toUnicode($str);
 
     if ($uni === FALSE) {
         return false;
@@ -90,5 +90,5 @@ function _strtoupper(string $str)
         }
     }
 
-    return UTF8::from_unicode($uni);
+    return UTF8::fromUnicode($uni);
 }

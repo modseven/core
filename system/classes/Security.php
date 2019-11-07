@@ -34,7 +34,7 @@ class Security
      */
     public static function check(string $token): bool
     {
-        return self::slow_equals(self::token(), $token);
+        return self::slowEquals(self::token(), $token);
     }
 
     /**
@@ -46,7 +46,7 @@ class Security
      *
      * @return boolean
      */
-    public static function slow_equals(string $a, string $b): bool
+    public static function slowEquals(string $a, string $b): bool
     {
         $diff = strlen($a) ^ strlen($b);
         for ($i = 0; $i < strlen($a) && $i < strlen($b); $i++) {
@@ -88,7 +88,7 @@ class Security
         $token = $session->get(static::$token_name);
 
         if ($new || !$token) {
-            $token = self::_generate_token();
+            $token = self::_generateToken();
 
             // Store the new token
             $session->set(static::$token_name, $token);
@@ -102,7 +102,7 @@ class Security
      *
      * @return  string
      */
-    protected static function _generate_token(): string
+    protected static function _generateToken(): string
     {
         if (function_exists('\random_bytes')) {
             try {
@@ -129,7 +129,7 @@ class Security
      * @param string $str string to sanitize
      * @return  string
      */
-    public static function encode_php_tags(string $str): string
+    public static function encodePhpTags(string $str): string
     {
         return str_replace(['<?', '?>'], ['&lt;?', '?&gt;'], $str);
     }

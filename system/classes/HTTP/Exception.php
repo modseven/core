@@ -71,7 +71,7 @@ class Exception extends \Modseven\Exception
      *
      * @return \Modseven\Response
      */
-    public function get_response(): \Modseven\Response
+    public function getResponse(): \Modseven\Response
     {
         return \Modseven\Exception::response($this);
     }

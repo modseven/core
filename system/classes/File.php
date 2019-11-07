@@ -56,7 +56,7 @@ class File
         }
 
         if (!empty($extension)) {
-            return self::mime_by_ext($extension);
+            return self::mimeByExt($extension);
         }
 
         // Unable to find the mime-type
@@ -72,7 +72,7 @@ class File
      *
      * @throws Exception
      */
-    public static function mime_by_ext(string $extension)
+    public static function mimeByExt(string $extension)
     {
         // Load all of the mime types
         $mimes = Core::$config->load('mimes');
@@ -89,7 +89,7 @@ class File
      *
      * @throws Exception
      */
-    public static function mimes_by_ext(string $extension): array
+    public static function mimesByExt(string $extension): array
     {
         // Load all of the mime types
         $mimes = Core::$config->load('mimes');
@@ -106,9 +106,9 @@ class File
      *
      * @throws Exception
      */
-    public static function ext_by_mime(string $type)
+    public static function extByMime(string $type)
     {
-        $exts = self::exts_by_mime($type);
+        $exts = self::extsByMime($type);
 
         if ($exts === FALSE) {
             return FALSE;
@@ -126,7 +126,7 @@ class File
      *
      * @throws Exception
      */
-    public static function exts_by_mime(string $type)
+    public static function extsByMime(string $type)
     {
         static $types = [];
 

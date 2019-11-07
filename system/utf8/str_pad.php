@@ -25,9 +25,9 @@ use Modseven\UTF8\Exception;
  *
  * @throws Exception
  */
-function _str_pad($str, $final_str_length, $pad_str = ' ', $pad_type = STR_PAD_RIGHT)
+function _strPad($str, $final_str_length, $pad_str = ' ', $pad_type = STR_PAD_RIGHT)
 {
-    if (UTF8::is_ascii($str) && UTF8::is_ascii($pad_str)) {
+    if (UTF8::isAscii($str) && UTF8::isAscii($pad_str)) {
         return str_pad($str, $final_str_length, $pad_str, $pad_type);
     }
 

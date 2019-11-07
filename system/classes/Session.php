@@ -270,7 +270,7 @@ abstract class Session
      *
      * @return  array
      */
-    public function & as_array(): array
+    public function & asArray(): array
     {
         return $this->_data;
     }
@@ -304,7 +304,7 @@ abstract class Session
      * @param mixed $default default value to return
      * @return  mixed
      */
-    public function get_once(string $key, $default = NULL)
+    public function getOnce(string $key, $default = NULL)
     {
         $value = $this->get($key, $default);
 

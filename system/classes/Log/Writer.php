@@ -65,7 +65,7 @@ abstract class Writer {
      */
     public function formatMessage(array $message, string $format = 'time --- level: body in file:line') : string
     {
-        $message['time'] = Date::formatted_time('@'.$message['time'], static::$timestamp, static::$timezone);
+        $message['time'] = Date::formattedTime('@' . $message['time'], static::$timestamp, static::$timezone);
 
         $string = strtr($format, array_filter($message, 'is_scalar'));
 

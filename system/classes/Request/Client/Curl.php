@@ -35,12 +35,12 @@ class Curl extends External
      * @throws Exception
      * @throws \Modseven\Exception
      */
-    public function _send_message(Request $request, Response $response): Response
+    public function _sendMessage(Request $request, Response $response): Response
     {
         $options = [];
 
         // Set the request method
-        $options = $this->_set_curl_request_method($request, $options);
+        $options = $this->_setCurlRequestMethod($request, $options);
 
         // Set the request body. This is perfectly legal in CURL even
         // if using a request other than POST. PUT does support this method
@@ -129,7 +129,7 @@ class Curl extends External
      *
      * @return array
      */
-    public function _set_curl_request_method(Request $request, array $options): array
+    public function _setCurlRequestMethod(Request $request, array $options): array
     {
         if ($request->method() === Request::POST) {
             $options[CURLOPT_POST] = TRUE;

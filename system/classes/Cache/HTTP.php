@@ -85,7 +85,7 @@ class HTTP
 
         if ($this->_cache_key_callback === null)
         {
-            $this->cache_key_callback('\Modseven\Cache\HTTP::basic_cache_key_generator');
+            $this->cacheKeyCallback('\Modseven\Cache\HTTP::basicCacheKeyGenerator');
         }
     }
 
@@ -105,7 +105,7 @@ class HTTP
      *
      * @return  mixed
      */
-    public function cache_key_callback($callback = null)
+    public function cachekeyCallback($callback = null)
     {
         if ($callback === null)
         {
@@ -163,7 +163,7 @@ class HTTP
     {
         if (!$this->_cache instanceof Cache)
         {
-            return $client->execute_request($request, $response);
+            return $client->executeRequest($request, $response);
         }
 
         // If this is a destructive request, by-pass cache completely
@@ -174,11 +174,11 @@ class HTTP
         ], true))
         {
             // Kill existing caches for this request
-            $this->invalidate_cache($request);
+            $this->invalidateCache($request);
 
-            $response = $client->execute_request($request, $response);
+            $response = $client->executeRequest($request, $response);
 
-            $cache_control = Header::create_cache_control([
+            $cache_control = Header::createCacheControl([
                 'no-cache',
                 'must-revalidate'
             ]);
@@ -188,10 +188,10 @@ class HTTP
         }
 
         // Create the cache key
-        $cache_key = $this->create_cache_key($request, $this->_cache_key_callback);
+        $cache_key = $this->createCacheKey($request, $this->_cache_key_callback);
 
         // Try and return cached version
-        if (($cached_response = $this->cache_response($cache_key, $request)) instanceof Response)
+        if (($cached_response = $this->cacheResponse($cache_key, $request)) instanceof Response)
         {
             return $cached_response;
         }
@@ -200,13 +200,13 @@ class HTTP
         $this->_request_time = time();
 
         // Execute the request with the Request client
-        $response = $client->execute_request($request, $response);
+        $response = $client->executeRequest($request, $response);
 
         // Stop response time
         $this->_response_time = (time() - $this->_request_time);
 
         // Cache the response
-        $this->cache_response($cache_key, $request, $response);
+        $this->cacheResponse($cache_key, $request, $response);
 
         $response->headers(static::CACHE_STATUS_KEY, static::CACHE_STATUS_MISS);
 
@@ -220,11 +220,11 @@ class HTTP
      *
      * @param Request $request Response to remove from cache
      */
-    public function invalidate_cache(Request $request): void
+    public function invalidateCache(Request $request): void
     {
         if (($cache = $this->cache()) instanceof Cache)
         {
-            $cache->delete($this->create_cache_key($request, $this->_cache_key_callback));
+            $cache->delete($this->createCacheKey($request, $this->_cache_key_callback));
         }
     }
 
@@ -259,13 +259,13 @@ class HTTP
      *
      * @return string
      */
-    public function create_cache_key(Request $request, $callback = null): string
+    public function createCacheKey(Request $request, $callback = null): string
     {
         if (is_callable($callback))
         {
             return $callback($request);
         }
-        return self::basic_cache_key_generator($request);
+        return self::basicCacheKeyGenerator($request);
     }
 
     /**
@@ -277,7 +277,7 @@ class HTTP
      *                         
      * @return string
      */
-    public static function basic_cache_key_generator(Request $request): string
+    public static function basicCacheKeyGenerator(Request $request): string
     {
         $uri = $request->uri();
         $query = $request->query();
@@ -302,7 +302,7 @@ class HTTP
      *
      * @return bool|Response
      */
-    public function cache_response(string $key, Request $request, Response $response = null)
+    public function cacheResponse(string $key, Request $request, Response $response = null)
     {
         if (!$this->_cache instanceof Cache)
         {
@@ -349,7 +349,7 @@ class HTTP
             return $response;
         }
 
-        if (($ttl = $this->cache_lifetime($response)) === false)
+        if (($ttl = $this->cacheLifetime($response)) === false)
         {
             return false;
         }
@@ -370,10 +370,10 @@ class HTTP
      *
      * @return int|bool TTL value or false if the response should not be cached
      */
-    public function cache_lifetime(Response $response)
+    public function cacheLifetime(Response $response)
     {
         // Get out of here if this cannot be cached
-        if (!$this->set_cache($response))
+        if (!$this->setCache($response))
         {
             return false;
         }
@@ -399,7 +399,7 @@ class HTTP
         }
 
         // Corrected initial age
-        $corrected_initial_age = $corrected_received_age + $this->request_execution_time();
+        $corrected_initial_age = $corrected_received_age + $this->requestExecutionTime();
 
         // Resident time
         $resident_time = time() - $this->_response_time;
@@ -413,7 +413,7 @@ class HTTP
         // Cache control overrides
         if ($cache_control = $response->headers('cache-control')) {
             // Parse the cache control header
-            $cache_control = Header::parse_cache_control($cache_control);
+            $cache_control = Header::parseCacheControl($cache_control);
 
             if (isset($cache_control['max-age'])) {
                 $ttl = $cache_control['max-age'];
@@ -452,14 +452,14 @@ class HTTP
      *
      * @return bool
      */
-    public function set_cache(Response $response): bool
+    public function setCache(Response $response): bool
     {
         $headers = $response->headers()->getArrayCopy();
 
         if ($cache_control = Arr::get($headers, 'cache-control'))
         {
             // Parse the cache control
-            $cache_control = Header::parse_cache_control($cache_control);
+            $cache_control = Header::parseCacheControl($cache_control);
 
             // If the no-cache or no-store directive is set, return
             if (array_intersect($cache_control, ['no-cache', 'no-store']))
@@ -497,7 +497,7 @@ class HTTP
      *
      * @return int|bool Returns false if the request hasn't finished executing, or is yet to be run.
      */
-    public function request_execution_time()
+    public function requestExecutionTime()
     {
         if ($this->_request_time === NULL || $this->_response_time === null)
         {
@@ -516,7 +516,7 @@ class HTTP
      *
      * @return self|bool
      */
-    public function allow_private_cache(?bool $setting = null)
+    public function allowPrivateCache(?bool $setting = null)
     {
         if ($setting === null)
         {

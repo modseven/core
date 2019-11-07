@@ -23,9 +23,6 @@ class Debug
      * Returns an HTML string of debugging information about any number of
      * variables, each wrapped in a "pre" tag:
      *
-     *     // Displays the type and value of each variable
-     *     echo Debug::vars($foo, $bar, $baz);
-     *
      * @return  string|null
      */
     public static function vars(): ?string

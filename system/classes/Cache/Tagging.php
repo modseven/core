@@ -25,7 +25,7 @@ interface Tagging
      *
      * @return  bool
      */
-    public function set_with_tags(string $tag, $data, ?int $lifetime = NULL, ?array $tags = NULL) : bool;
+    public function setWithTags(string $tag, $data, ?int $lifetime = NULL, ?array $tags = NULL) : bool;
 
     /**
      * Delete cache entries based on a tag
@@ -34,7 +34,7 @@ interface Tagging
      *
      * @return bool
      */
-    public function delete_tag(string $tag) : bool;
+    public function deleteTag(string $tag) : bool;
 
     /**
      * Find cache entries based on a tag

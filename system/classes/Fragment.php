@@ -60,7 +60,7 @@ class Fragment
         $lifetime = ($lifetime === NULL) ? static::$lifetime : (int)$lifetime;
 
         // Get the cache key name
-        $cache_key = self::_cache_key($name, $i18n);
+        $cache_key = self::_cacheKey($name, $i18n);
 
         if ($fragment = Core::cache($cache_key, NULL, $lifetime)) {
             // Display the cached fragment now
@@ -85,7 +85,7 @@ class Fragment
      * @param boolean $i18n multilingual fragment support
      * @return  string
      */
-    protected static function _cache_key(string $name, bool $i18n = NULL): string
+    protected static function _cacheKey(string $name, bool $i18n = NULL): string
     {
         if ($i18n === NULL) {
             // Use the default setting
@@ -139,7 +139,7 @@ class Fragment
     public static function delete(string $name, ?bool $i18n = NULL): void
     {
         // Invalid the cache
-        Core::cache(self::_cache_key($name, $i18n), NULL, -3600);
+        Core::cache(self::_cacheKey($name, $i18n), NULL, -3600);
     }
 
 }

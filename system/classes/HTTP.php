@@ -60,11 +60,11 @@ abstract class HTTP
      *
      * @throws HTTP\Exception
      */
-    public static function check_cache(\Modseven\HTTP\Request $request, \Modseven\HTTP\Response $response, ?string $etag = NULL): \Modseven\HTTP\Response
+    public static function checkCache(\Modseven\HTTP\Request $request, \Modseven\HTTP\Response $response, ?string $etag = NULL): \Modseven\HTTP\Response
     {
         // Generate an etag if necessary
         if ($etag === NULL) {
-            $etag = $response->generate_etag();
+            $etag = $response->generateEtag();
         }
 
         // Set the ETag header
@@ -95,7 +95,7 @@ abstract class HTTP
      *
      * @return  HTTP\Header
      */
-    public static function parse_header_string(string $header_string): HTTP\Header
+    public static function parseHeaderString(string $header_string): HTTP\Header
     {
         // If the PECL HTTP extension is loaded
         if (extension_loaded('http')) {
@@ -140,7 +140,7 @@ abstract class HTTP
      *
      * @return  HTTP\Header
      */
-    public static function request_headers(): HTTP\Header
+    public static function requestHeaders(): HTTP\Header
     {
         // If running on apache server
         if (function_exists('apache_request_headers')) {
@@ -193,7 +193,7 @@ abstract class HTTP
      *
      * @return  string
      */
-    public static function www_form_urlencode(array $params): string
+    public static function wwwFormUrlencode(array $params): string
     {
         $encoded = [];
 

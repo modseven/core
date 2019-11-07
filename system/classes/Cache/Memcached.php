@@ -124,7 +124,7 @@ class Memcached extends Cache
      */
     public function get(string $id, $default = null)
     {
-        $result = $this->memcached_instance->get($this->_sanitize_id($id));
+        $result = $this->memcached_instance->get($this->_sanitizeId($id));
 
         if ($this->memcached_instance->getResultCode() !== \Memcached::RES_SUCCESS)
         {
@@ -147,7 +147,7 @@ class Memcached extends Cache
      */
     public function set(string $id, $data, int $lifetime = 3600) : bool
     {
-        return $this->memcached_instance->set($this->_sanitize_id($id), $data, $lifetime);
+        return $this->memcached_instance->set($this->_sanitizeId($id), $data, $lifetime);
     }
 
     /**
@@ -161,7 +161,7 @@ class Memcached extends Cache
      */
     public function delete(string $id) : bool
     {
-        return $this->memcached_instance->delete($this->_sanitize_id($id));
+        return $this->memcached_instance->delete($this->_sanitizeId($id));
     }
 
     /**
@@ -171,7 +171,7 @@ class Memcached extends Cache
      *
      * @return bool
      */
-    public function delete_all() : bool
+    public function deleteAll() : bool
     {
         return $this->memcached_instance->flush();
     }

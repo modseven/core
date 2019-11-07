@@ -7,7 +7,7 @@
  *
  *     $controller = new Controller_Foo($request);
  *     $controller->before();
- *     $controller->action_bar();
+ *     $controller->action();
  *     $controller->after();
  *
  * The controller action should add the output it creates to
@@ -90,7 +90,7 @@ abstract class Controller
         $this->before();
 
         // Determine the action to use
-        $action = 'action_' . $this->request->action();
+        $action = $this->request->action();
 
         // If the action doesn't exist, it's a 404
         if (!method_exists($this, $action)) {
@@ -144,9 +144,9 @@ abstract class Controller
      *
      * @throws Exception
      */
-    protected function check_cache(?string $etag = NULL): \Modseven\HTTP\Response
+    protected function checkCache(?string $etag = NULL): \Modseven\HTTP\Response
     {
-        return HTTP::check_cache($this->request, $this->response, $etag);
+        return HTTP::checkCache($this->request, $this->response, $etag);
     }
 
 }

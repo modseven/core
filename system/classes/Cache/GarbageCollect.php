@@ -18,5 +18,5 @@ interface GarbageCollect
      * Garbage collection method that cleans any expired
      * cache entries from the cache.
      */
-    public function garbage_collect() : void;
+    public function garbageCollect() : void;
 }

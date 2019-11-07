@@ -85,7 +85,7 @@ class Header extends ArrayObject
      * @param array $cache_control Cache-Control to render to string
      * @return  string
      */
-    public static function create_cache_control(array $cache_control): string
+    public static function createCacheControl(array $cache_control): string
     {
         $parts = [];
 
@@ -103,7 +103,7 @@ class Header extends ArrayObject
      * @param string $cache_control Cache Control headers
      * @return  mixed
      */
-    public static function parse_cache_control(string $cache_control)
+    public static function parseCacheControl(string $cache_control)
     {
         $directives = explode(',', strtolower($cache_control));
 
@@ -188,7 +188,7 @@ class Header extends ArrayObject
      * @param string $header_line the line from the header to parse
      * @return  int
      */
-    public function parse_header_string($resource, string $header_line): int
+    public function parseHeaderString($resource, string $header_line): int
     {
         if (preg_match_all('/(\w[^\s:]*):[ ]*([^\r\n]*(?:\r\n[ \t][^\r\n]*)*)/', $header_line, $matches)) {
             foreach ($matches[0] as $key => $value) {
@@ -266,13 +266,13 @@ class Header extends ArrayObject
      *
      * @throws Exception
      */
-    public function preferred_accept(array $types, bool $explicit = FALSE): string
+    public function preferredAccept(array $types, bool $explicit = FALSE): string
     {
         $preferred = FALSE;
         $ceiling = 0;
 
         foreach ($types as $type) {
-            $quality = $this->accepts_at_quality($type, $explicit);
+            $quality = $this->acceptsAtQuality($type, $explicit);
 
             if ($quality > $ceiling) {
                 $preferred = $type;
@@ -296,7 +296,7 @@ class Header extends ArrayObject
      *
      * @throws Exception
      */
-    public function accepts_at_quality(string $type, bool $explicit = FALSE)
+    public function acceptsAtQuality(string $type, bool $explicit = FALSE)
     {
         // Parse Accept header if required
         if ($this->_accept_content === NULL) {
@@ -306,7 +306,7 @@ class Header extends ArrayObject
                 $accept = '*/*';
             }
 
-            $this->_accept_content = self::parse_accept_header($accept);
+            $this->_accept_content = self::parseAcceptHeader($accept);
         }
 
         // If not a real mime, try and find it in config
@@ -328,7 +328,7 @@ class Header extends ArrayObject
             $quality = FALSE;
 
             foreach ($mime as $_type) {
-                $quality_check = $this->accepts_at_quality($_type, $explicit);
+                $quality_check = $this->acceptsAtQuality($_type, $explicit);
                 $quality = ($quality_check > $quality) ? $quality_check : $quality;
             }
 
@@ -358,7 +358,7 @@ class Header extends ArrayObject
      * @param string $accepts accept content header string to parse
      * @return  array
      */
-    public static function parse_accept_header(?string $accepts = NULL): array
+    public static function parseAcceptHeader(?string $accepts = NULL): array
     {
         $accepts = explode(',', (string)$accepts);
 
@@ -368,7 +368,7 @@ class Header extends ArrayObject
         }
 
         // Parse the accept header qualities
-        $accepts = self::accept_quality($accepts);
+        $accepts = self::acceptQuality($accepts);
 
         $parsed_accept = [];
 
@@ -395,7 +395,7 @@ class Header extends ArrayObject
      * @param array $parts accept header parts
      * @return  array
      */
-    public static function accept_quality(array $parts): array
+    public static function acceptQuality(array $parts): array
     {
         $parsed = [];
 
@@ -430,13 +430,13 @@ class Header extends ArrayObject
      * @param array $charsets charsets to test
      * @return  mixed   preferred charset or `FALSE`
      */
-    public function preferred_charset(array $charsets)
+    public function preferredCharset(array $charsets)
     {
         $preferred = FALSE;
         $ceiling = 0;
 
         foreach ($charsets as $charset) {
-            $quality = $this->accepts_charset_at_quality($charset);
+            $quality = $this->acceptsCharsetAtQuality($charset);
 
             if ($quality > $ceiling) {
                 $preferred = $charset;
@@ -455,14 +455,14 @@ class Header extends ArrayObject
      * @param string $charset charset to examine
      * @return  float   the quality of the charset
      */
-    public function accepts_charset_at_quality(string $charset): float
+    public function acceptsCharsetAtQuality(string $charset): float
     {
         if ($this->_accept_charset === NULL) {
             if ($this->offsetExists('Accept-Charset')) {
                 $charset_header = strtolower($this->offsetGet('Accept-Charset'));
-                $this->_accept_charset = self::parse_charset_header($charset_header);
+                $this->_accept_charset = self::parseCharsetHeader($charset_header);
             } else {
-                $this->_accept_charset = self::parse_charset_header(NULL);
+                $this->_accept_charset = self::parseCharsetHeader(NULL);
             }
         }
 
@@ -489,13 +489,13 @@ class Header extends ArrayObject
      * @param string $charset charset string to parse
      * @return  array
      */
-    public static function parse_charset_header(?string $charset = NULL): array
+    public static function parseCharsetHeader(?string $charset = NULL): array
     {
         if ($charset === NULL) {
             return ['*' => (float)static::DEFAULT_QUALITY];
         }
 
-        return self::accept_quality(explode(',', (string)$charset));
+        return self::acceptQuality(explode(',', (string)$charset));
     }
 
     /**
@@ -507,13 +507,13 @@ class Header extends ArrayObject
      * @param boolean $explicit explicit check, if `TRUE` wildcards are excluded
      * @return  mixed
      */
-    public function preferred_encoding(array $encodings, bool $explicit = FALSE)
+    public function preferredEncoding(array $encodings, bool $explicit = FALSE)
     {
         $ceiling = 0;
         $preferred = FALSE;
 
         foreach ($encodings as $encoding) {
-            $quality = $this->accepts_encoding_at_quality($encoding, $explicit);
+            $quality = $this->acceptsEncodingAtQuality($encoding, $explicit);
 
             if ($quality > $ceiling) {
                 $ceiling = $quality;
@@ -534,7 +534,7 @@ class Header extends ArrayObject
      * @param boolean $explicit explicit check, ignoring wildcards and `identity`
      * @return  float
      */
-    public function accepts_encoding_at_quality(string $encoding, bool $explicit = FALSE): float
+    public function acceptsEncodingAtQuality(string $encoding, bool $explicit = FALSE): float
     {
         if ($this->_accept_encoding === NULL) {
             if ($this->offsetExists('Accept-Encoding')) {
@@ -543,7 +543,7 @@ class Header extends ArrayObject
                 $encoding_header = NULL;
             }
 
-            $this->_accept_encoding = self::parse_encoding_header($encoding_header);
+            $this->_accept_encoding = self::parseEncodingHeader($encoding_header);
         }
 
         // Normalize the encoding
@@ -573,7 +573,7 @@ class Header extends ArrayObject
      * @param string $encoding charset string to parse
      * @return  array
      */
-    public static function parse_encoding_header(?string $encoding = NULL): array
+    public static function parseEncodingHeader(?string $encoding = NULL): array
     {
         // Accept everything
         if ($encoding === NULL) {
@@ -582,7 +582,7 @@ class Header extends ArrayObject
         if ($encoding === '') {
             return ['identity' => (float)static::DEFAULT_QUALITY];
         }
-        return self::accept_quality(explode(',', (string)$encoding));
+        return self::acceptQuality(explode(',', (string)$encoding));
     }
 
     /**
@@ -593,14 +593,14 @@ class Header extends ArrayObject
      * @param boolean $explicit
      * @return  mixed
      */
-    public function preferred_language(array $languages, bool $explicit = FALSE)
+    public function preferredLanguage(array $languages, bool $explicit = FALSE)
     {
         $ceiling = 0;
         $preferred = FALSE;
-        $languages = $this->_order_languages_as_received($languages, $explicit);
+        $languages = $this->_orderLanguagesAsReceived($languages, $explicit);
 
         foreach ($languages as $language) {
-            $quality = $this->accepts_language_at_quality($language, $explicit);
+            $quality = $this->acceptsLanguageAtQuality($language, $explicit);
 
             if ($quality > $ceiling) {
                 $ceiling = $quality;
@@ -619,7 +619,7 @@ class Header extends ArrayObject
      * @param boolean $explicit
      * @return  array
      */
-    protected function _order_languages_as_received(array $languages, bool $explicit = FALSE): array
+    protected function _orderLanguagesAsReceived(array $languages, bool $explicit = FALSE): array
     {
         if ($this->_accept_language_list === NULL) {
             if ($this->offsetExists('Accept-Language')) {
@@ -628,7 +628,7 @@ class Header extends ArrayObject
                 $language_header = NULL;
             }
 
-            $this->_accept_language_list = self::_parse_language_header_as_list($language_header);
+            $this->_accept_language_list = self::_parseLanguageHeaderAsList($language_header);
         }
 
         $new_order = [];
@@ -658,7 +658,7 @@ class Header extends ArrayObject
      * @param string $language charset string to parse
      * @return  array
      */
-    protected static function _parse_language_header_as_list(?string $language = NULL): array
+    protected static function _parseLanguageHeaderAsList(?string $language = NULL): array
     {
         $languages = [];
         $language = explode(',', strtolower($language));
@@ -683,7 +683,7 @@ class Header extends ArrayObject
      * @param boolean $explicit explicit interrogation, `TRUE` ignores wildcards
      * @return  float
      */
-    public function accepts_language_at_quality(string $language, bool $explicit = FALSE): float
+    public function acceptsLanguageAtQuality(string $language, bool $explicit = FALSE): float
     {
         if ($this->_accept_language === NULL) {
             if ($this->offsetExists('Accept-Language')) {
@@ -692,7 +692,7 @@ class Header extends ArrayObject
                 $language_header = NULL;
             }
 
-            $this->_accept_language = self::parse_language_header($language_header);
+            $this->_accept_language = self::parseLanguageHeader($language_header);
         }
 
         // Normalize the language
@@ -726,13 +726,13 @@ class Header extends ArrayObject
      * @param string $language charset string to parse
      * @return  array
      */
-    public static function parse_language_header(?string $language = NULL): array
+    public static function parseLanguageHeader(?string $language = NULL): array
     {
         if ($language === NULL) {
             return ['*' => ['*' => (float)static::DEFAULT_QUALITY]];
         }
 
-        $language = self::accept_quality(explode(',', (string)$language));
+        $language = self::acceptQuality(explode(',', (string)$language));
 
         $parsed_language = [];
 
@@ -768,7 +768,7 @@ class Header extends ArrayObject
      *
      * @throws \Modseven\Exception
      */
-    public function send_headers(Response $response, bool $replace = FALSE, $callback = NULL)
+    public function sendHeaders(Response $response, bool $replace = FALSE, $callback = NULL)
     {
         $protocol = $response->protocol();
         $status = $response->status();
@@ -805,7 +805,7 @@ class Header extends ArrayObject
             return $callback($response, $processed_headers, $replace);
         }
 
-        $this->_send_headers_to_php($processed_headers, $replace);
+        $this->_sendHeadersToPhp($processed_headers, $replace);
         return $response;
     }
 
@@ -820,7 +820,7 @@ class Header extends ArrayObject
      *
      * @throws \Modseven\Exception
      */
-    protected function _send_headers_to_php(array $headers, bool $replace): self
+    protected function _sendHeadersToPhp(array $headers, bool $replace): self
     {
         // If the headers have been sent, get out
         if (headers_sent()) {

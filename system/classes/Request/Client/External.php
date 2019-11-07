@@ -141,7 +141,7 @@ abstract class External extends Client
      * @return Response
      * @throws Exception
      */
-    public function execute_request(Request $request, Response $response): Response
+    public function executeRequest(Request $request, Response $response): Response
     {
         //@codeCoverageIgnoreStart
         if (Core::$profiling) {
@@ -169,7 +169,7 @@ abstract class External extends Client
                 ->headers('content-type', 'application/x-www-form-urlencoded; charset=' . Core::$charset);
         }
 
-        $request->headers('content-length', (string)$request->content_length());
+        $request->headers('content-length', (string)$request->contentLength());
 
         // If Modseven expose, set the user-agent
         if (Core::$expose) {
@@ -177,7 +177,7 @@ abstract class External extends Client
         }
 
         try {
-            $response = $this->_send_message($request, $response);
+            $response = $this->_sendMessage($request, $response);
         } catch (\Exception $e) {
             // Restore the previous request
             Request::$current = $previous;
@@ -216,6 +216,6 @@ abstract class External extends Client
      *
      * @return  Response
      */
-    abstract protected function _send_message(Request $request, Response $response): Response;
+    abstract protected function _sendMessage(Request $request, Response $response): Response;
 
 }

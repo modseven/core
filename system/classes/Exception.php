@@ -83,7 +83,7 @@ class Exception extends \Exception
     public static function handler(Throwable $t): void
     {
         // Send the response to the browser
-        echo self::_handler($t)->send_headers()->body();
+        echo self::_handler($t)->sendHeaders()->body();
 
         exit(1);
     }

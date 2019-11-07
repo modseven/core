@@ -17,7 +17,7 @@
  *
  * @return mixed
  */
-function _transliterate_to_ascii(string $str, int $case = 0)
+function _transliterateToAscii(string $str, int $case = 0)
 {
     static $utf8_lower_accents = NULL;
     static $utf8_upper_accents = NULL;

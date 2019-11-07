@@ -22,7 +22,7 @@ use Modseven\UTF8\Exception;
  *
  * @throws Exception
  */
-function _to_unicode(string $str)
+function _toUnicode(string $str)
 {
     // Cached expected number of octets after the current octet until the beginning of the next UTF8 character sequence
     $m_state = 0;

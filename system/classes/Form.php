@@ -21,15 +21,6 @@ class Form
     /**
      * Generates an opening HTML form tag.
      *
-     *     // Form will submit back to the current page using POST
-     *     echo Form::open();
-     *
-     *     // Form will submit to 'search' using GET
-     *     echo Form::open('search', array('method' => 'get'));
-     *
-     *     // When "file" inputs are present, you must include the "enctype"
-     *     echo Form::open(NULL, array('enctype' => 'multipart/form-data'));
-     *
      * @param mixed $action form action, defaults to the current request URI, or [Request] class to use
      * @param array $attributes html attributes
      *

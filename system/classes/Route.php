@@ -7,22 +7,7 @@
  *
  * Each <key> will be translated to a regular expression using a default
  * regular expression pattern. You can override the default pattern by providing
- * a pattern for the key:
- *
- *     // This route will only match when <id> is a digit
- *     Route::set('user', 'user/<action>/<id>', array('id' => '\d+'));
- *
- *     // This route will match when <path> is anything
- *     Route::set('file', '<path>', array('path' => '.*'));
- *
- * It is also possible to create optional segments by using parentheses in
- * the URI definition:
- *
- *     // This is the standard default route, and no keys are required
- *     Route::set('default', '(<controller>(/<action>(/<id>)))');
- *
- *     // This route only requires the <file> key
- *     Route::set('file', '(<path>/)<file>(.<format>)', array('path' => '.*', 'format' => '\w+'));
+ * a pattern for the key.
  *
  * Routes also provide a way to generate URIs (called "reverse routing"), which
  * makes them an extremely powerful and flexible way to generate internal links.
@@ -271,7 +256,7 @@ class Route
         $route = self::get($name);
 
         // Create a URI with the route and convert it to a URL
-        if ($route->is_external()) {
+        if ($route->isExternal()) {
             return $route->uri($params);
         }
         return URL::site($route->uri($params), $protocol);
@@ -302,7 +287,7 @@ class Route
      *
      * @return  boolean
      */
-    public function is_external(): bool
+    public function isExternal(): bool
     {
         return !in_array(Arr::get($this->_defaults, 'host', false), static::$localhosts, true);
     }
@@ -391,7 +376,7 @@ class Route
         // Trim all extra slashes from the URI
         $uri = preg_replace('#//+#', '/', rtrim($uri, '/'));
 
-        if ($this->is_external()) {
+        if ($this->isExternal()) {
             // Need to add the host to the URI
             $host = $this->_defaults['host'];
 

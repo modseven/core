@@ -80,7 +80,7 @@ class Cookie
             // Separate the salt and the value
             [$hash, $value] = explode('~', $cookie, 2);
 
-            if (Security::slow_equals(self::salt($key, $value), $hash)) {
+            if (Security::slowEquals(self::salt($key, $value), $hash)) {
                 // Cookie signature is valid
                 return $value;
             }

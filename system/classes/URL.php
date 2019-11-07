@@ -35,9 +35,9 @@ class URL
         // Chop off possible scheme, host, port, user and pass parts
         $path = preg_replace('~^[-a-z0-9+.]++://[^/]++/?~', '', trim($uri, '/'));
 
-        if (!UTF8::is_ascii($path)) {
+        if (!UTF8::isAscii($path)) {
             // Encode all non-ASCII characters, as per RFC 1738
-            $path = preg_replace_callback('~([^/#]+)~', '\Modseven\URL::_rawurlencode_callback', $path);
+            $path = preg_replace_callback('~([^/#]+)~', '\Modseven\URL::_rawurlencodeCallback', $path);
         }
 
         // Concat the URL
@@ -139,7 +139,7 @@ class URL
             }
 
             // Validate $host, see if it matches trusted hosts
-            if (!static::is_trusted_host($host)) {
+            if (!self::isTrustedHost($host)) {
                 throw new Exception(
                     'Untrusted host :host. If you trust :host, add it to the trusted hosts in the `url` config file.',
                     [':host' => $host]
@@ -166,11 +166,11 @@ class URL
      *
      * @throws Exception
      */
-    public static function is_trusted_host(string $host, ?array $trusted_hosts = NULL): bool
+    public static function isTrustedHost(string $host, ?array $trusted_hosts = NULL): bool
     {
         // If list of trusted hosts is not directly provided read from config
         if (empty($trusted_hosts)) {
-            $trusted_hosts = (array)Core::$config->load('url')->get('trusted_hosts');
+            $trusted_hosts = (array)Core::$config->load('app')->get('trusted_hosts');
         }
 
         // loop through the $trusted_hosts array for a match
@@ -251,7 +251,7 @@ class URL
             if (extension_loaded('intl')) {
                 $title = transliterator_transliterate('Any-Latin;Latin-ASCII', $title);
             } else {
-                $title = UTF8::transliterate_to_ascii($title);
+                $title = UTF8::transliterateToAscii($title);
             }
 
             // Remove all characters that are not the separator, a-z, 0-9, or whitespace
@@ -275,7 +275,7 @@ class URL
      * @param array $matches Array of matches from preg_replace_callback()
      * @return string          Encoded string
      */
-    protected static function _rawurlencode_callback(array $matches): string
+    protected static function _rawurlencodeCallback(array $matches): string
     {
         return rawurlencode($matches[0]);
     }

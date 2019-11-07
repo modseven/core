@@ -13,9 +13,9 @@
 
 use Modseven\UTF8;
 
-function _substr_replace($str, $replacement, $offset, $length = NULL)
+function _substrReplace($str, $replacement, $offset, $length = NULL)
 {
-    if (UTF8::is_ascii($str)) {
+    if (UTF8::isAscii($str)) {
         return ($length === null) ? substr_replace($str, $replacement, $offset) : substr_replace($str, $replacement,
             $offset, $length);
     }

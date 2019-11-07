@@ -19,7 +19,7 @@ function _strspn($str, $mask, $offset = NULL, $length = NULL)
         return 0;
     }
 
-    if (UTF8::is_ascii($str) && UTF8::is_ascii($mask)) {
+    if (UTF8::isAscii($str) && UTF8::isAscii($mask)) {
         return ($offset === null) ? strspn($str, $mask) : (($length === null) ? strspn($str, $mask,
             $offset) : strspn($str, $mask, $offset, $length));
     }
