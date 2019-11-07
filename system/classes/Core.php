@@ -18,6 +18,7 @@
 
 namespace Modseven;
 
+use JsonException;
 use DirectoryIterator;
 use Composer\Autoload\ClassLoader;
 
@@ -224,6 +225,9 @@ class Core
             // Enable or disable internal caching
             static::$caching = (bool)$settings['caching'];
         }
+
+        // Initialize the Modules
+        self::initModules();
 
         if (static::$caching === TRUE)
         {
@@ -726,6 +730,73 @@ class Core
      */
     public static function register_module(string $namespace, string $path, bool $prepend = false) : void
     {
+        // Load the modules init.php if present
+        $init = $path . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'init.php';
+        if (is_readable($init))
+        {
+            require_once $init;
+        }
+
         static::$autoloader->addPsr4($namespace, $path, $prepend);
+    }
+
+    /**
+     * Function to initialize Modules.
+     * Requires "init.php" if module is "modseven" flagged
+     *
+     * @throws Exception
+     */
+    public static function initModules() : void
+    {
+        $modules = [];
+
+        // If caching enabled and cache load from cache
+        if ((static::$caching === true) && ! empty($modules = self::cache('\Modseven\Core::initModules()') ?? []))
+        {
+            foreach ($modules as $name => $init)
+            {
+                require_once $init;
+            }
+        }
+
+        // Grab installed packages from composer(s) installed.json
+        $vendor = DOCROOT . 'vendor' . DIRECTORY_SEPARATOR;
+        $file =  $vendor . 'composer' . DIRECTORY_SEPARATOR . 'installed.json';
+
+        if ( ! is_readable($file))
+        {
+            throw new Exception('Please run composer install before initializing modules.');
+        }
+
+        try
+        {
+            $installed = json_decode(file_get_contents($file), true, 512, JSON_THROW_ON_ERROR);
+        }
+        catch (JsonException $e)
+        {
+            throw new Exception($e->getMessage(), null, $e->getCode(), $e);
+        }
+
+        // Only register init.php files from modules which have "modseven" set to true
+        foreach ($installed as $module)
+        {
+            if (isset($module['extra']['modseven']) && $module['extra']['modseven'] === true)
+            {
+                $init = $vendor . $module['name'] . DIRECTORY_SEPARATOR . 'init.php';
+
+                if (file_exists($init))
+                {
+                    $modules[$module['name']] = $init;
+                    require_once $init;
+                }
+            }
+        }
+
+        // Cache if wanted
+        if (static::$caching === true)
+        {
+            self::cache('\Modseven\Core\initModules()', $modules);
+        }
+
     }
 }
