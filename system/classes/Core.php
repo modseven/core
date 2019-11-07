@@ -200,7 +200,7 @@ class Core
             set_exception_handler([Exception::class, 'handler']);
 
             // Enable Modseven error handling, converts all PHP errors to exceptions.
-            set_error_handler([__CLASS__, 'error_handler']);
+            set_error_handler([__CLASS__, 'errorHandler']);
         }
 
         /**
@@ -211,7 +211,7 @@ class Core
         }
 
         // Enable the Modseven shutdown handler, which catches E_FATAL errors.
-        register_shutdown_function([__CLASS__, 'shutdown_handler']);
+        register_shutdown_function([__CLASS__, 'shutdownHandler']);
 
         if (isset($settings['expose'])) {
             static::$expose = (bool)$settings['expose'];
@@ -229,7 +229,7 @@ class Core
         if (static::$caching === TRUE)
         {
             // Load the file path cache
-            static::$_files = self::cache('\Modseven\Core::find_file()') ?? [];
+            static::$_files = self::cache('\Modseven\Core::findFile()') ?? [];
         }
 
         if (isset($settings['charset'])) {
@@ -375,7 +375,7 @@ class Core
         {
             if (is_dir($path)) {
                 // Add the module to include paths
-                self::register_module($namespace, $path);
+                self::registerModule($namespace, $path);
 
                 // include a modules initialization file
                 $init = $path . 'init.php';
@@ -402,7 +402,7 @@ class Core
      *
      * @return  array
      */
-    public static function include_paths(): array
+    public static function includePaths(): array
     {
         return static::$_paths;
     }
@@ -419,7 +419,7 @@ class Core
      *
      * @return  array
      */
-    public static function list_files(?string $directory = NULL, array $paths = NULL, $ext = NULL, bool $sort = TRUE): array
+    public static function listFiles(?string $directory = NULL, array $paths = NULL, $ext = NULL, bool $sort = TRUE): array
     {
         if ($directory !== NULL) {
             // Add the directory separator
@@ -455,7 +455,7 @@ class Core
                     $key = $directory . $filename;
 
                     if ($file->isDir()) {
-                        if ($sub_dir = self::list_files($key, $paths, $ext, $sort)) {
+                        if ($sub_dir = self::listFiles($key, $paths, $ext, $sort)) {
                             if (isset($found[$key])) {
                                 // Append the sub-directory list
                                 $found[$key] += $sub_dir;
@@ -502,7 +502,7 @@ class Core
             // Create a new message list
             $messages[$file] = [];
 
-            if ($files = self::find_file('messages', $file)) {
+            if ($files = self::findFile('messages', $file)) {
                 foreach ($files as $f) {
                     // Combine all the messages recursively
                     $messages[$file] = Arr::merge($messages[$file], self::load($f));
@@ -536,7 +536,7 @@ class Core
      *
      * @return  array|string   a list of files when $array is TRUE, single file path
      */
-    public static function find_file(string $dir, string $file, ?string $ext = NULL, bool $array = FALSE)
+    public static function findFile(string $dir, string $file, ?string $ext = NULL, bool $array = FALSE)
     {
         if ($ext === NULL) {
             // Use the default extension
@@ -633,7 +633,7 @@ class Core
      *
      * @throws  \Modseven\Error\Exception
      */
-    public static function error_handler(int $code, string $error, ?string $file = NULL, ?int $line = NULL): bool
+    public static function errorHandler(int $code, string $error, ?string $file = NULL, ?int $line = NULL): bool
     {
         if (error_reporting() & $code) {
             // This error is not suppressed by current error reporting settings
@@ -650,7 +650,7 @@ class Core
      *
      * @throws Exception
      */
-    public static function shutdown_handler(): void
+    public static function shutdownHandler(): void
     {
         if (!static::$_init) {
             // Do not execute when not active
@@ -660,7 +660,7 @@ class Core
         try {
             if (static::$caching === TRUE && static::$_files_changed === TRUE) {
                 // Write the file path cache
-                static::cache('\Modseven\Core::find_file()', static::$_files);
+                static::cache('\Modseven\Core::findFile()', static::$_files);
             }
         } catch (\Exception $e) {
             // Pass the exception to the handler
@@ -725,7 +725,7 @@ class Core
      * @param string $path       Path to `classes` folder
      * @param bool   $prepend    Prepend (in case the namespace already exists)
      */
-    public static function register_module(string $namespace, string $path, bool $prepend = false) : void
+    public static function registerModule(string $namespace, string $path, bool $prepend = false) : void
     {
         // Load the modules init.php if present
         $init = $path . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'init.php';
@@ -794,6 +794,27 @@ class Core
         {
             self::cache('\Modseven\Core\initModules()', $modules);
         }
+    }
 
+    /**
+     * Registers a new Path.
+     *
+     * You need to call this if you want the "findFile" function to actually find and include your:
+     * views, configs, translations, messages, etc...
+     *
+     * @param string      $path    Path to register
+     * @param string|null $before  Register before this path, default SYSPATH
+     */
+    public static function registerPath(string $path, ?string $before = SYSPATH) : void
+    {
+        // Insert before other module this is useful if your module overwrites another
+        if ($before && ($key = array_search($before, static::$_paths, true)))
+        {
+            array_splice(static::$_paths, $key, 0, $path);
+        }
+        else
+        {
+            static::$_paths[] = $path;
+        }
     }
 }

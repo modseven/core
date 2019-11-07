@@ -1,5 +1,5 @@
 <style type="text/css">
-    <?php include \Modseven\Core::find_file('views', 'profiler/style', 'css') ?>
+    <?php include \Modseven\Core::findFile('views', 'profiler/style', 'css') ?>
 </style>
 
 <?php

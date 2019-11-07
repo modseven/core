@@ -61,7 +61,7 @@ class View
      */
     public function set_filename(string $file): self
     {
-        if (($path = Core::find_file('views', $file)) === false) {
+        if (($path = Core::findFile('views', $file)) === false) {
             throw new View\Exception('The requested view :file could not be found', [
                 ':file' => $file,
             ]);

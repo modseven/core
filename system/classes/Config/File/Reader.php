@@ -69,7 +69,7 @@ class Reader implements \Modseven\Config\Reader
         $config = [];
 
         // Loop through paths. Notice: array_reverse, so system files get overwritten by app files
-        foreach (array_reverse(Core::include_paths()) as $path)
+        foreach (array_reverse(Core::includePaths()) as $path)
         {
             // Build path
             $file = $path . 'config' . DIRECTORY_SEPARATOR . $group;

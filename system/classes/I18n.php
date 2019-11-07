@@ -130,7 +130,7 @@ class I18n
         // Loop through Paths
         foreach ([$parts[0], implode(DIRECTORY_SEPARATOR, $parts)] as $path) {
             // Load files
-            $files = Core::find_file('i18n', $path);
+            $files = Core::findFile('i18n', $path);
 
             // Loop through files
             if (!empty($files)) {
