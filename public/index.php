@@ -134,6 +134,9 @@ if ($conf['cookie']['secure']) {
 // Bootstrap the application
 require APPPATH . 'routes.php';
 
+// Initialize the Modules
+\Modseven\Core::initModules();
+
 if (PHP_SAPI === 'cli')
 {
     // Try and load minion

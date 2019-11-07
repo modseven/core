@@ -226,9 +226,6 @@ class Core
             static::$caching = (bool)$settings['caching'];
         }
 
-        // Initialize the Modules
-        self::initModules();
-
         if (static::$caching === TRUE)
         {
             // Load the file path cache
