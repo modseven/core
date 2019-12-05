@@ -29,7 +29,7 @@ PSR Standards to expect soon:
 |  12 | Extended Coding Style Guide | Implemented                  |
 |  13 | Hypermedia Links            | Not implemented but planned  |
 |  15 | HTTP Handlers               | Not implemented but planned  |
-|  16 | Simple Cache                | In Progress                  |
+|  16 | Simple Cache                | Implemented                  |
 |  17 | HTTP Factories              | Not implemented but planned  |
 |  18 | HTTP Client                 | Not implemented but planned  |
 
