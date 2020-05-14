@@ -35,7 +35,6 @@
     "ext-json": "*",
     "ext-intl": "*",
     "ext-yaml": "*",
-    "ext-http": "*",
     "ext-ctype": "*",
     "ext-iconv": "*",
     "ext-mbstring": "*",

@@ -7,7 +7,6 @@
  * Supported out of the box:
  *  - Streams (default)
  *  - Curl (default if loaded)
- *  - PECL HTTP (default if curl not loaded and pecl_http loaded)
  *
  * @package        Modseven\Base
  *
@@ -70,8 +69,6 @@ abstract class External extends Client
             if (static::$client === NULL) {
                 if (extension_loaded('curl')) {
                     static::$client = '\Modseven\Request\Client\Curl';
-                } elseif (extension_loaded('http')) {
-                    static::$client = '\Modseven\Request\Client\HTTP';
                 } else {
                     static::$client = '\Modseven\Request\Client\Stream';
                 }

@@ -68,7 +68,7 @@
         }
 
         .warning {
-            color: #d2b362;
+            color: #d49907;
         }
 
         .fail {
@@ -277,21 +277,11 @@
     <table>
         <tbody>
         <tr>
-            <th>PECL HTTP Enabled</th>
-            <?php if (extension_loaded('http')): ?>
-                <td class="pass">Pass</td>
-            <?php else: ?>
-                <td class="fail">Koseven can use the <a href="http://php.net/http">http</a> extension for external
-                    requests.
-                </td>
-            <?php endif ?>
-        </tr>
-        <tr>
             <th>cURL Enabled</th>
             <?php if (extension_loaded('curl')): ?>
                 <td class="pass">Pass</td>
             <?php else: ?>
-                <td class="fail">Koseven can use the <a href="http://php.net/curl">cURL</a> extension for external
+                <td class="warning">Koseven can use the <a href="http://php.net/curl">cURL</a> extension for external
                     requests.
                 </td>
             <?php endif ?>
@@ -307,7 +297,7 @@
                     <td class="warning">For full support we recommend installing GD with 'webp' and 'bmp' support.</td>
                 <?php endif; ?>
             <?php else: ?>
-                <td class="fail">Koseven can use <a href="http://php.net/gd">GD</a> >= v2 for Image manipulation</td>
+                <td class="warning">Koseven can use <a href="http://php.net/gd">GD</a> >= v2 for Image manipulation</td>
             <?php endif ?>
         </tr>
         <tr>
@@ -327,7 +317,7 @@
                     </td>
                 <?php endif; ?>
             <?php else: ?>
-                <td class="fail">Koseven can use <a href="http://php.net/imagick">Imagick</a> >= v6.9 for Image
+                <td class="warning">Koseven can use <a href="http://php.net/imagick">Imagick</a> >= v6.9 for Image
                     manipulation.
                 </td>
             <?php endif ?>
@@ -337,7 +327,7 @@
             <?php if (function_exists('mysqli_connect')): ?>
                 <td class="pass">Pass</td>
             <?php else: ?>
-                <td class="fail">Koseven can use the <a href="http://php.net/mysqli">MySQLi</a> extension to support
+                <td class="warning">Koseven can use the <a href="http://php.net/mysqli">MySQLi</a> extension to support
                     MySQL databases.
                 </td>
             <?php endif ?>
@@ -347,7 +337,7 @@
             <?php if (class_exists('PDO')): ?>
                 <td class="pass">Pass</td>
             <?php else: ?>
-                <td class="fail">Koseven can use <a href="http://php.net/pdo">PDO</a> to support additional databases.
+                <td class="warning">Koseven can use <a href="http://php.net/pdo">PDO</a> to support additional databases.
                 </td>
             <?php endif ?>
         </tr>
