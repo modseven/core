@@ -89,7 +89,7 @@ class Cache implements CacheItemPoolInterface
     {
         try
         {
-            $config = Core::$config->load('cache');
+            $config = \Modseven\Config::instance()->load('cache');
         }
         catch (\Modseven\Exception $e)
         {
@@ -682,7 +682,7 @@ class Cache implements CacheItemPoolInterface
         // configuration for the specific cache group
         try
         {
-            $prefix = $this->_config['prefix'] ?? Core::$config->load('cache.prefix');
+            $prefix = $this->_config['prefix'] ?? \Modseven\Config::instance()->load('cache.prefix');
         }
         catch (\Modseven\Exception $e)
         {

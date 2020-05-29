@@ -185,7 +185,7 @@ abstract class Session
 
         if (!isset(static::$instances[$type])) {
             // Load the configuration for this type
-            $config = Core::$config->load('session')->get($type);
+            $config = \Modseven\Config::instance()->load('session')->get($type);
 
             // Set the session class name
             $class = $config['driver'];

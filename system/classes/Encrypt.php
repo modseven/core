@@ -60,7 +60,7 @@ class Encrypt
                 // Load the configuration data
                 try
                 {
-                    $config = Core::$config->load('encrypt')->$name;
+                    $config = \Modseven\Config::instance()->load('encrypt')->$name;
                 }
                 catch (\Modseven\Exception $e)
                 {

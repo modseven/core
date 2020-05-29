@@ -67,7 +67,7 @@ if (!is_file(DOCROOT . '/vendor/autoload.php')) {
 ini_set('unserialize_callback_func', 'spl_autoload_call');
 
 // Attach Configuration Reader and Load App Configuration
-$config = new \Modseven\Config;
+$config = \Modseven\Config::instance();
 $config->attach(new \Modseven\Config\File);
 try {
     $conf = $config->load('app')->asArray();
@@ -102,9 +102,6 @@ if (isset($_SERVER['SERVER_PROTOCOL'])) {
 if (isset($_SERVER['MODSEVEN_ENV'])) {
     \Modseven\Core::$environment = constant('\Modseven\Core::' . strtoupper($_SERVER['MODSEVEN_ENV']));
 }
-
-// Set the current configuration class
-\Modseven\Core::$config = $config;
 
 // Initialize Modseven, setting the default options.
 \Modseven\Core::init([

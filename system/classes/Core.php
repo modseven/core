@@ -119,12 +119,6 @@ class Core
     public static ?Log $log = null;
 
     /**
-     * config object
-     * @var  Config|null
-     */
-    public static ?Config $config = null;
-
-    /**
      * Composer Autoloader Object
      * @var ClassLoader
      */
@@ -261,11 +255,6 @@ class Core
         if (!static::$log instanceof Log) {
             static::$log = Log::instance();
         }
-
-        // Load the config if one doesn't already exist
-        if (!static::$config instanceof Config) {
-            static::$config = new Config;
-        }
     }
 
     /**
@@ -324,7 +313,7 @@ class Core
      * Cleans up the environment:
      *
      * - Restore the previous error and exception handlers
-     * - Destroy the Modseven::$log and Modseven::$config objects
+     * - Destroy the Modseven::$log object
      *
      * @return  void
      */
@@ -341,7 +330,7 @@ class Core
             }
 
             // Destroy objects created by init
-            static::$log = static::$config = NULL;
+            static::$log = NULL;
 
             // Reset internal storage
             static::$_modules = static::$_files = [];

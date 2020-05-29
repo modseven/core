@@ -78,7 +78,7 @@ class Inflector
 
         if (empty(static::$irregular)) {
             // Cache irregular words
-            static::$irregular = Core::$config->load('inflector')->irregular;
+            static::$irregular = \Modseven\Config::instance()->load('inflector')->irregular;
         }
 
         if ($irregular = array_search($str, static::$irregular, true)) {
@@ -118,7 +118,7 @@ class Inflector
     {
         if (static::$uncountable === NULL) {
             // Cache and Make uncountables mirrored
-            static::$uncountable = array_combine(Core::$config->load('inflector')->uncountable, static::$uncountable);
+            static::$uncountable = array_combine(\Modseven\Config::instance()->load('inflector')->uncountable, static::$uncountable);
         }
 
         return isset(static::$uncountable[strtolower($str)]);
@@ -169,7 +169,7 @@ class Inflector
 
         if (empty(static::$irregular)) {
             // Cache irregular words
-            static::$irregular = Core::$config->load('inflector')->irregular;
+            static::$irregular = \Modseven\Config::instance()->load('inflector')->irregular;
         }
 
         if (isset(static::$irregular[$str])) {

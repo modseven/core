@@ -254,7 +254,7 @@ class Valid
             return FALSE;
         }
 
-        $cards = Core::$config->load('credit_cards');
+        $cards = \Modseven\Config::instance()->load('credit_cards');
 
         // Check card type
         $type = strtolower($type);

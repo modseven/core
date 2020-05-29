@@ -28,6 +28,12 @@ use Modseven\Config\Group;
 class Config
 {
     /**
+     * Holds current configuration instance
+     * @var self|null
+     */
+    protected static ?self $_instance = null;
+
+    /**
      * Configuration readers
      * @var array
      */
@@ -38,6 +44,23 @@ class Config
      * @var array
      */
     protected array $_groups = [];
+
+    /**
+     * Returns current configuration instance
+     * @return static
+     */
+    public static function instance() : self
+    {
+        if (static::$_instance === null)
+        {
+            static::$_instance = new self();
+        }
+
+        return static::$_instance;
+    }
+
+    // This Class shall only be called via instance
+    protected function __construct() {}
 
     /**
      * Attach a configuration reader. By default, the reader will be added as

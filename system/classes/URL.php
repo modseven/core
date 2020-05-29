@@ -170,7 +170,7 @@ class URL
     {
         // If list of trusted hosts is not directly provided read from config
         if (empty($trusted_hosts)) {
-            $trusted_hosts = (array)Core::$config->load('app')->get('trusted_hosts');
+            $trusted_hosts = (array)\Modseven\Config::instance()->load('app')->get('trusted_hosts');
         }
 
         // loop through the $trusted_hosts array for a match

@@ -314,7 +314,7 @@ class Header extends ArrayObject
 
             try
             {
-                $mime = Core::$config->load('mimes.' . $type);
+                $mime = \Modseven\Config::instance()->load('mimes.' . $type);
             }
             catch (\Modseven\Exception $e)
             {

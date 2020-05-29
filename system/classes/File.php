@@ -75,7 +75,7 @@ class File
     public static function mimeByExt(string $extension)
     {
         // Load all of the mime types
-        $mimes = Core::$config->load('mimes');
+        $mimes = \Modseven\Config::instance()->load('mimes');
 
         return isset($mimes[$extension]) ? $mimes[$extension][0] : FALSE;
     }
@@ -92,7 +92,7 @@ class File
     public static function mimesByExt(string $extension): array
     {
         // Load all of the mime types
-        $mimes = Core::$config->load('mimes');
+        $mimes = \Modseven\Config::instance()->load('mimes');
 
         return isset($mimes[$extension]) ? ((array)$mimes[$extension]) : [];
     }
@@ -132,7 +132,7 @@ class File
 
         // Fill the static array
         if (empty($types)) {
-            foreach (Core::$config->load('mimes') as $ext => $mimes) {
+            foreach (\Modseven\Config::instance()->load('mimes') as $ext => $mimes) {
                 foreach ($mimes as $mime) {
                     if ($mime === 'application/octet-stream') {
                         // octet-stream is a generic binary
