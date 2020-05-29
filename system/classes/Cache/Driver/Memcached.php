@@ -20,12 +20,13 @@
  * @link           http://github.com/gimpe/modseven-memcached
  */
 
-namespace Modseven\Cache;
+namespace Modseven\Cache\Driver;
 
 use Modseven\Arr;
-use Modseven\Cache;
+use Modseven\Cache\Driver;
+use Modseven\Cache\Exception;
 
-class Memcached extends Cache
+class Memcached extends Driver
 {
     /**
      * Holds the cache instance
@@ -113,65 +114,96 @@ class Memcached extends Cache
     }
 
     /**
-     * Retrieve a cached value entry by Id.
+     * @inheritDoc
      *
-     * @param string  $id       Id of cache to entry
-     * @param mixed   $default  Default value to return if cache miss
-     *
-     * @return  mixed
-     *
-     * @throws  Exception
+     * Note: Since memcached has not a built-in function to check if a key exists this method should not be used
+     *       as it may cause a race condition
      */
-    public function get(string $id, $default = null)
+    public function has(string $key) : bool
     {
-        $result = $this->memcached_instance->get($this->_sanitizeId($id));
+        $item = $this->memcached_instance->get($key);
+        return $this->memcached_instance->getResultCode() === \Memcached::RES_SUCCESS;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function get(string $id)
+    {
+        $result = $this->memcached_instance->get($id);
 
         if ($this->memcached_instance->getResultCode() !== \Memcached::RES_SUCCESS)
         {
-            $result = $default;
+            return false;
         }
 
         return $result;
     }
 
     /**
-     * Set a value to cache with id and lifetime
-     *
-     * @param string  $id       Id of cache entry
-     * @param string  $data     Data to set to cache
-     * @param integer $lifetime Lifetime in seconds
-     *
-     * @return  bool
-     *
-     * @throws Exception
+     * @inheritDoc
      */
-    public function set(string $id, $data, int $lifetime = 3600) : bool
+    public function getMultiple(array $keys) : array
     {
-        return $this->memcached_instance->set($this->_sanitizeId($id), $data, $lifetime);
+        return $this->memcached_instance->getMulti($keys);
     }
 
     /**
-     * Delete a cache entry based on id
+     * @inheritDoc
+     */
+    public function set(string $id, $data, ?int $lifetime = 3600) : bool
+    {
+        return $this->memcached_instance->set($id, $data, $lifetime);
+    }
+
+    /**
+     * @inheritDoc
      *
-     * @param string  $id Id to remove from cache
-     *
-     * @return bool
-     *
-     * @throws Exception
+     * Note: If the ttl of the items are different the default ttl will be used
+     */
+    public function setMultiple(array $items) : bool
+    {
+        $ttl = null;
+        $different_ttl = false;
+        $normalized = [];
+        foreach ($items as $key => $item)
+        {
+            $normalized[$key] = $item['value'];
+
+            if ($ttl === null)
+            {
+                $ttl = $item['ttl'];
+            }
+            elseif ($item['ttl'] !== $ttl)
+            {
+                $different_ttl = true;
+            }
+        }
+
+        return $this->memcached_instance->setMulti($items, $different_ttl ? 3600 : $ttl);
+    }
+
+    /**
+     * @inheritDoc
      */
     public function delete(string $id) : bool
     {
-        return $this->memcached_instance->delete($this->_sanitizeId($id));
+        return $this->memcached_instance->delete($id);
     }
 
     /**
-     * Delete all cache entries.
-     * Beware of using this method when using shared memory cache systems, as it will wipe every
-     * entry within the system for all clients.
-     *
-     * @return bool
+     * @inheritDoc
      */
-    public function deleteAll() : bool
+    public function deleteMultiple(array $keys) : bool
+    {
+        $deleted = $this->memcached_instance->deleteMulti($keys);
+        return true;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function clear() : bool
     {
         return $this->memcached_instance->flush();
     }

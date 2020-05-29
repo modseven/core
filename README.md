@@ -24,7 +24,7 @@ PSR Standards to expect soon:
 |  1  | Basic Coding Standard       | Implemented                  |
 |  3  | Logger Interface            | Implemented                  |
 |  4  | Autoloading Standard        | Implemented                  |
-|  6  | Caching Interface           | In Progress                  |
+|  6  | Caching Interface           | Implemented                  |
 |  7  | HTTP Message Interface      | Not implemented but planned  |
 |  12 | Extended Coding Style Guide | Implemented                  |
 |  13 | Hypermedia Links            | Not implemented but planned  |

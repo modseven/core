@@ -3,7 +3,7 @@
  * Contains debugging and dumping tools.
  *
  * @package    Modseven
- * @category   Base
+ * @category   Driver
  *
  * @copyright  (c) 2007-2016  Kohana Team
  * @copyright  (c) 2016-2019  Koseven Team

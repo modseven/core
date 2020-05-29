@@ -8,7 +8,7 @@
  * @copyright  (c) 2016-2019  Koseven Team
  * @copyright  (c) since 2019 Modseven Team
  * @license        https://koseven.ga/LICENSE
- * @category       Base
+ * @category       Driver
  *
  * @package        Modseven
  */

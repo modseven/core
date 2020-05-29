@@ -5,7 +5,7 @@
  * response format.
  *
  * @package    Modseven
- * @category   Base
+ * @category   Driver
  *
  * @copyright  (c) 2007-2016  Kohana Team
  * @copyright  (c) 2016-2019  Koseven Team
@@ -98,9 +98,9 @@ class Response implements HTTP\Response
 
     /**
      * The response body
-     * @var string
+     * @var string|array
      */
-    protected string $_body = '';
+    protected $_body = '';
 
     /**
      * Cookies to be returned in the response
@@ -178,7 +178,7 @@ class Response implements HTTP\Response
      */
     public function __toString(): string
     {
-        return $this->_body;
+        return (string)$this->_body;
     }
 
     /**
@@ -645,11 +645,11 @@ class Response implements HTTP\Response
     /**
      * Gets or sets the body of the response
      *
-     * @param null|string $content Content to put into the body
+     * @param   string|array|null $content Content to send to the body
      *
      * @return  mixed
      */
-    public function body(?string $content = NULL)
+    public function body($content = NULL)
     {
         if ($content === NULL) {
             return $this->_body;

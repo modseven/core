@@ -1,6 +1,6 @@
 <?php
 /**
- * Base session class.
+ * Driver session class.
  *
  * @package    Modseven
  * @category   Session

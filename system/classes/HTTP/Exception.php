@@ -17,7 +17,7 @@ class Exception extends \Modseven\Exception
      *
      * @var Request
      */
-    protected Request $_request;
+    protected ?Request $_request = null;
 
     /**
      * Exception constructor.

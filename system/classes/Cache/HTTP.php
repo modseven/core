@@ -330,16 +330,8 @@ class HTTP
                 return false;
             }
 
-            // Do cache hit arithmetic, using fast arithmetic if available
-            if ($this->_cache instanceof Arithmetic)
-            {
-                $hit_count = $this->_cache->increment(static::CACHE_HIT_KEY . $key);
-            }
-            else
-            {
-                $hit_count = $this->_cache->get(static::CACHE_HIT_KEY . $key);
-                $this->_cache->set(static::CACHE_HIT_KEY . $key, ++$hit_count);
-            }
+            $hit_count = $this->_cache->get(static::CACHE_HIT_KEY . $key);
+            $this->_cache->set(static::CACHE_HIT_KEY . $key, ++$hit_count);
 
             // Update the header to have correct HIT status and count
             $response

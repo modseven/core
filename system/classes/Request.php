@@ -4,7 +4,7 @@
  * [Controller] to send the request to.
  *
  * @package    Modseven
- * @category   Base
+ * @category   Driver
  *
  * @copyright  (c) 2007-2016  Kohana Team
  * @copyright  (c) 2016-2019  Koseven Team
@@ -160,6 +160,12 @@ class Request implements HTTP\Request
      * @var array
      */
     protected array $_cookies = [];
+
+    /**
+     * Requested Format (json, xml, html)
+     * @var string|null
+     */
+    protected ?string $_format = null;
 
     /**
      * @var null|Request\Client
@@ -530,10 +536,10 @@ class Request implements HTTP\Request
      * Gets or sets the HTTP body of the request. The body is
      * included after the header, separated by a single empty new line.
      *
-     * @param string $content Content to set to the object
+     * @param   string|array|null $content Content to set to the object
      * @return  mixed
      */
-    public function body(?string $content = NULL)
+    public function body($content = NULL)
     {
         if ($content === NULL) {
             // Act as a getter
@@ -1067,6 +1073,12 @@ class Request implements HTTP\Request
                     $this->_directory = $params['directory'];
                 }
 
+                // Requested format e.g XML, JSON, etc..
+                if (isset($params['format']))
+                {
+                    $this->_format = $params['format'];
+                }
+
                 // Store the controller
                 $this->_controller = $params['controller'];
 
@@ -1074,7 +1086,7 @@ class Request implements HTTP\Request
                 $this->_action = $params['action'] ?? Route::$default_action;
 
                 // These are accessible as public vars and can be overloaded
-                unset($params['controller'], $params['action'], $params['directory']);
+                unset($params['controller'], $params['action'], $params['directory'], $params['namespace'], $params['format']);
 
                 // Params cannot be changed once matched
                 $this->_params = $params;
@@ -1169,4 +1181,22 @@ class Request implements HTTP\Request
         return $this;
     }
 
+    /**
+     * Get / Set requested format
+     *
+     * @param string|null $format e.g JSON, XML, etc...
+     *
+     * @return $this|string
+     */
+    public function format(?string $format = NULL)
+    {
+        if ($format === NULL)
+        {
+            return $this->_format;
+        }
+
+        $this->_format = $format;
+
+        return $this;
+    }
 }

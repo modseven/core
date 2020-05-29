@@ -1,6 +1,6 @@
 <?php
 /**
- * Modseven Encryption Engine Base class
+ * Modseven Encryption Engine Driver class
  *
  * @copyright  (c) 2007-2016  Kohana Team
  * @copyright  (c) 2016-2019  Koseven Team

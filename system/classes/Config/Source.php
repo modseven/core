@@ -1,6 +1,6 @@
 <?php
 /**
- * Base Config source Interface
+ * Driver Config source Interface
  *
  * Used to identify either config readers or writers when calling Config::attach()
  *

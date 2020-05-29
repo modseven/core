@@ -15,7 +15,7 @@
  * [phputf8](http://phputf8.sourceforge.net/), this file is released under the LGPL.
  *
  * @package    Modseven
- * @category   Base
+ * @category   Driver
  *
  * @copyright  (c) 2007-2016  Kohana Team
  * @copyright  (c) 2016-2019  Koseven Team

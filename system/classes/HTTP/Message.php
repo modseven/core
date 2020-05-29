@@ -42,10 +42,10 @@ interface Message
      * Gets or sets the HTTP body to the request or response. The body is
      * included after the header, separated by a single empty new line.
      *
-     * @param string $content Content to set to the object
+     * @param   string|array|null $content Content to set to the object
      * @return  string|void
      */
-    public function body(?string $content = NULL);
+    public function body($content = NULL);
 
     /**
      * Renders the HTTP_Interaction to a string, producing

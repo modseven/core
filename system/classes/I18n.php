@@ -18,7 +18,7 @@
  *       echo I18n::get(['Hello, :user', [':user' => $username]]);
  *
  * @package    Modseven
- * @category   Base
+ * @category   Driver
  *
  * @copyright  (c) 2008 - 2016 Kohana Team
  * @copyright  (c) 2016-2019  Koseven Team
@@ -35,12 +35,6 @@ class I18n
      * @var  string
      */
     public static string $lang = 'en-us';
-
-    /**
-     * Source language: en-us, es-es, zh-cb, etc
-     * @var string
-     */
-    public static string $source = 'en-us';
 
     /**
      * Cache of loaded languages
@@ -70,10 +64,9 @@ class I18n
      *
      * @param string|array $string Text to translate or array [text, values]
      * @param string $lang Target Language
-     * @param string $source Source Language
      * @return  string
      */
-    public static function get($string, ?string $lang = NULL, ?string $source = NULL): string
+    public static function get($string, ?string $lang = NULL): string
     {
         $values = [];
 
@@ -91,20 +84,11 @@ class I18n
             $lang = static::$lang;
         }
 
-        // Set source Language if not set
-        if (!$source) {
-            // Use the global source language
-            $source = static::$source;
-        }
+        // Load the translation table for this language
+        $table = static::load($lang);
 
-        // Load Table only if Source language does not match target language
-        if ($source !== $lang) {
-            // Load the translation table for this language
-            $table = static::load($lang);
-
-            // Return the translated string if it exists
-            $string = $table[$string] ?? $string;
-        }
+        // Return the translated string if it exists
+        $string = $table[$string] ?? $string;
 
         return empty($values) ? $string : strtr($string, $values);
     }
@@ -147,22 +131,5 @@ class I18n
 
         // Cache the translation table locally
         return static::$_cache[$lang] = $table;
-    }
-}
-
-if (!function_exists('__')) {
-    /**
-     * Modseven translation/internationalization function. The PHP function
-     * [strtr](http://php.net/strtr) is used for replacing parameters.
-     *
-     * @param string $string Text to translate
-     * @param array $values Values to replace in the translated text
-     * @param string $lang Source language
-     *
-     * @return  string
-     */
-    function __(string $string, ?array $values = NULL, ?string $lang = NULL): string
-    {
-        return I18n::get($values ? [$string, $values] : $string, NULL, $lang);
     }
 }

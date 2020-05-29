@@ -1,8 +1,7 @@
 <?php
 /**
- * Modseven Cache Exception
- *
- * Throw this on Cache Error
+ * @package    Modseven
+ * @category   Exceptions
  *
  * @copyright  (c) 2007-2016  Kohana Team
  * @copyright  (c) 2016-2019  Koseven Team
@@ -10,6 +9,6 @@
  * @license    https://koseven.ga/LICENSE
  */
 
-namespace Modseven\Cache;
+namespace Modseven\REST;
 
-class Exception extends \Modseven\Exception implements \Psr\SimpleCache\CacheException {}
+class Exception extends \Modseven\Exception {}

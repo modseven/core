@@ -1,7 +1,8 @@
 <?php
 /**
  * File Cache driver. Provides a file based driver for the Modseven Cache library.
- * This is one of the slowest caching methods.
+ *
+ * Note: This is one of the slowest caching methods and you should avoid it if possible
  *
  * @copyright  (c) 2007-2016  Kohana Team
  * @copyright  (c) 2016-2019  Koseven Team
@@ -9,7 +10,7 @@
  * @license        https://koseven.ga/LICENSE
  */
 
-namespace Modseven\Cache;
+namespace Modseven\Cache\Driver;
 
 use SplFileInfo;
 use ErrorException;
@@ -17,9 +18,10 @@ use DirectoryIterator;
 use UnexpectedValueException;
 
 use Modseven\Arr;
-use Modseven\Cache;
+use Modseven\Cache\Driver;
+use Modseven\Cache\Exception;
 
-class File extends Cache implements GarbageCollect
+class File extends Driver implements GarbageCollect
 {
     /**
      * The caching directory
@@ -77,23 +79,25 @@ class File extends Cache implements GarbageCollect
     }
 
     /**
-     * Retrieve a cached value entry by id.
-     *
-     * @param string $id      id of cache to entry
-     * @param mixed  $default default value to return if cache miss
-     *
-     * @return mixed
-     *
-     * @throws Exception
+     * @inheritDoc
      */
-    public function get(string $id, $default = null)
+    public function has(string $key) : bool
     {
-        if ( ! $this->_cache_dir_usable)
+        // File cache is to slow to use this function, this could create a race condition, so we do not check for it
+        throw new Exception('The "File" Cache driver does not support the "has" function.');
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function get(string $id)
+    {
+        if (!$this->_cache_dir_usable)
         {
             $this->_checkCacheDir();
         }
 
-        $filename = self::filename($this->_sanitizeId($id));
+        $filename = self::filename($id);
         $directory = $this->_resolveDirectory($filename);
 
         // Wrap operations in try/catch to handle notices
@@ -103,10 +107,10 @@ class File extends Cache implements GarbageCollect
             $file = new SplFileInfo($directory . $filename);
 
             // If file does not exist
-            if ( ! $file->isFile())
+            if (!$file->isFile())
             {
                 // Return default value
-                return $default;
+                return false;
             }
 
             // Test the expiry
@@ -114,7 +118,7 @@ class File extends Cache implements GarbageCollect
             {
                 // Delete the file
                 $this->_deleteFile($file, false, true);
-                return $default;
+                return false;
             }
 
             // open the file to read data
@@ -122,7 +126,7 @@ class File extends Cache implements GarbageCollect
 
             // Run first fgets(). Cache data starts from the second line
             // as the first contains the lifetime timestamp
-            $data->fgets();
+            $ts = $data->fgets();
 
             $cache = '';
 
@@ -130,40 +134,47 @@ class File extends Cache implements GarbageCollect
                 $cache .= $data->fgets();
             }
 
-            return unserialize($cache);
+            $this->isHit = true;
+            return unserialize($cache, false);
         }
         catch (ErrorException $e)
         {
-            throw new Exception($e->getMessage(), null, $e->getCode(), $e);
+            throw new \Modseven\Cache\Exception($e->getMessage(), null, $e->getCode(), $e);
         }
     }
 
     /**
-     * Set a value to cache with id and lifetime
-     *
-     * @param string  $id       id of cache entry
-     * @param mixed   $data     data to set to cache
-     * @param int     $lifetime lifetime in seconds
-     *
-     * @return  bool
-     *
-     * @throws Exception
+     * @inheritDoc
+     */
+    public function getMultiple(array $keys) : array
+    {
+        $results = [];
+        foreach ($keys as $key)
+        {
+            $results[$key] = $this->get($key);
+        }
+
+        return $results;
+    }
+
+    /**
+     * @inheritDoc
      */
     public function set(string $id, $data, ?int $lifetime = null) : bool
     {
-        if ( ! $this->_cache_dir_usable)
+        if (!$this->_cache_dir_usable)
         {
             $this->_checkCacheDir();
         }
 
-        $filename = self::filename($this->_sanitizeId($id));
+        $filename = self::filename($id);
         $directory = $this->_resolveDirectory($filename);
 
         // If lifetime is NULL
         if ($lifetime === null)
         {
             // Set to the default expiry
-            $lifetime = Arr::get($this->_config, 'default_expire', Cache::DEFAULT_EXPIRE);
+            $lifetime = Arr::get($this->_config, 'default_expire', 3600);
         }
 
         // Open directory
@@ -176,8 +187,7 @@ class File extends Cache implements GarbageCollect
         }
 
         // Open file to inspect
-        $resource = new SplFileInfo($directory . $filename);
-        $file = $resource->openFile('w');
+        $file = (new SplFileInfo($directory . $filename))->openFile('w');
 
         try
         {
@@ -193,38 +203,63 @@ class File extends Cache implements GarbageCollect
     }
 
     /**
-     * Delete a cache entry based on id
-     *
-     * @param string $id id to remove from cache
-     *
-     * @return bool
-     *
-     * @throws Exception
+     * @inheritDoc
+     */
+    public function setMultiple(array $items) : bool
+    {
+        $return = true;
+
+        foreach ($items as $key => $item)
+        {
+            $success = $this->set($key, $item['value'], $item['lifetime']);
+            if (!$success)
+            {
+                $return = false;
+            }
+        }
+
+        return $return;
+    }
+
+    /**
+     * @inheritDoc
      */
     public function delete(string $id) : bool
     {
-        if ( ! $this->_cache_dir_usable)
+        if (!$this->_cache_dir_usable)
         {
             $this->_checkCacheDir();
         }
 
-        $filename = self::filename($this->_sanitizeId($id));
+        $filename = self::filename($id);
         $directory = $this->_resolveDirectory($filename);
 
         return $this->_deleteFile(new SplFileInfo($directory . $filename), false, true);
     }
 
     /**
-     * Delete all cache entries.
-     * Beware of using this method when
-     * using shared memory cache systems, as it will wipe every
-     * entry within the system for all clients.
-     *
-     * @return  bool
-     *
-     * @throws Exception
+     * @inheritDoc
      */
-    public function deleteAll() : bool
+    public function deleteMultiple(array $keys) : bool
+    {
+        $return = true;
+
+        foreach ($keys as $key)
+        {
+            $success = $this->delete($key);
+            if (!$success)
+            {
+                $return = false;
+            }
+        }
+
+        return $return;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function clear() : bool
     {
         $this->_cache_dir_usable or $this->_checkCacheDir();
 
@@ -232,10 +267,7 @@ class File extends Cache implements GarbageCollect
     }
 
     /**
-     * Garbage collection method that cleans any expired
-     * cache entries from the cache.
-     *
-     * @throws Exception
+     * @inheritDoc
      */
     public function garbageCollect() : void
     {

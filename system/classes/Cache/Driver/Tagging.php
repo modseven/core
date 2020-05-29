@@ -8,7 +8,7 @@
  * @license    https://koseven.ga/LICENSE
  */
 
-namespace Modseven\Cache;
+namespace Modseven\Cache\Driver;
 
 interface Tagging
 {
@@ -18,14 +18,14 @@ interface Tagging
      * Note : Some caching engines do not support
      * tagging
      *
-     * @param   string   $tag       tag name
+     * @param   string   $key       Cache Key
      * @param   mixed    $data      data
      * @param   integer  $lifetime  lifetime [Optional]
      * @param   array    $tags      tags [Optional]
      *
      * @return  bool
      */
-    public function setWithTags(string $tag, $data, ?int $lifetime = NULL, ?array $tags = NULL) : bool;
+    public function setWithTags(string $key, $data, array $tags, ?int $lifetime) : bool;
 
     /**
      * Delete cache entries based on a tag
@@ -43,5 +43,5 @@ interface Tagging
      *
      * @return  array
      */
-    public function find(string $tag) : array;
+    public function getWithTag(string $tag) : array;
 }

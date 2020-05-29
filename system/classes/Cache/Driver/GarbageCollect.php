@@ -10,7 +10,7 @@
  * @license    https://koseven.ga/LICENSE
  */
 
-namespace Modseven\Cache;
+namespace Modseven\Cache\Driver;
 
 interface GarbageCollect
 {

@@ -2,7 +2,7 @@
 /**
  * Request Client for Internal Execution
  *
- * @package        Modseven\Base
+ * @package        Modseven\Driver
  *
  * @copyright  (c) 2007-2016  Kohana Team
  * @copyright  (c) 2016-2019  Koseven Team
