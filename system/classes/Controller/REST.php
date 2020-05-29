@@ -11,12 +11,19 @@
 
 namespace Modseven\Controller;
 
+use \Modseven\View;
+use \Modseven\Config;
 use \Modseven\Controller;
 use \Modseven\HTTP\Request;
-use Modseven\REST\Exception;
-use Modseven\REST\Formatter;
+use \Modseven\REST\Exception;
+use \Modseven\REST\Formatter;
 
-abstract class REST extends Controller {
+abstract class REST extends Controller
+{
+    /**
+     * IF the formatter is html and a template is set, this will be the title sent to the template
+     */
+    protected string $_title = '';
 
     /**
      * Supported REST types and their corresponding actions
@@ -96,7 +103,19 @@ abstract class REST extends Controller {
         }
 
         // Format body
-        $this->response->body($formatter->format());
+        $body = $formatter->format();
+
+        // If the formatter is HTML and we have a template, render that
+        $viewTemplate = Config::instance()->load('app')->get('view_template', '');
+        if ($viewTemplate !== '' && $formatter->getExtensionType() === 'html')
+        {
+            $mainTemplate = View::factory($viewTemplate);
+            $mainTemplate->set('title', $this->_title);
+            $mainTemplate->set('body', $body);
+            $body = $mainTemplate->render();
+        }
+
+        $this->response->body($body);
 
         // Support attachment header
         if (isset($params['attachment']))

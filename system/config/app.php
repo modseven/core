@@ -16,6 +16,7 @@ return [
         'httponly' => FALSE,
         'secure' => FALSE,
     ],
+    'view_template' => '',
     'trusted_hosts' => [
         // Set up your hostnames here
         //
