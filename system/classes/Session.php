@@ -282,7 +282,7 @@ abstract class Session
      *
      * @return  string
      */
-    public function id(): string
+    public function id(): ?string
     {
         return NULL;
     }
