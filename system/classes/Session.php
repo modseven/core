@@ -159,7 +159,7 @@ abstract class Session
      */
     protected function _unserialize(string $data): array
     {
-        return unserialize($data, null);
+        return unserialize($data);
     }
 
     /**
@@ -226,7 +226,7 @@ abstract class Session
             // Encrypt the data using the default key
             try
             {
-                $data = Encrypt::instance($this->_encrypted)->encode($data);
+                $data = Encrypt::instance()->encode($data);
             }
             catch (Encrypt\Exception $e)
             {
