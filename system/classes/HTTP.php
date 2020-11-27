@@ -36,6 +36,7 @@ abstract class HTTP
      * @param int $code HTTP Status code to use for the redirect (RFC 7231)
      *
      * @throws HTTP\Exception
+     * @throws Exception
      */
     public static function redirect(string $uri = '', int $code = 302): void
     {
@@ -44,7 +45,7 @@ abstract class HTTP
             throw HTTP\Exception::factory(500, 'Invalid redirect code \':code\'', [':code' => $code]);
         }
 
-        // @Todo Redirect request
+        throw HTTP\Exception\Redirect::factory($code, $uri);
     }
 
     /**
