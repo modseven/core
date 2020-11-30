@@ -35,9 +35,9 @@ abstract class External extends Client
      *  - Request_Client_HTTP
      *  - Request_Client_Curl
      *
-     * @var    string    Defines the external client to use by default
+     * @var    ?string    Defines the external client to use by default
      */
-    public static string $client;
+    public static ?string $client = null;
 
     /**
      * Request options
