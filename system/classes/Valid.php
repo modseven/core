@@ -20,11 +20,11 @@ class Valid
     /**
      * Checks a field against a regular expression.
      *
-     * @param string $value value
+     * @param string|null $value value
      * @param string $expression regular expression to match (including delimiters)
      * @return  boolean
      */
-    public static function regex(string $value, string $expression): bool
+    public static function regex(?string $value, string $expression): bool
     {
         return (bool)preg_match($expression, $value);
     }
@@ -32,11 +32,11 @@ class Valid
     /**
      * Checks that a field is long enough.
      *
-     * @param string $value value
+     * @param string|null $value value
      * @param integer $length minimum length required
      * @return  boolean
      */
-    public static function minLength(string $value, int $length): bool
+    public static function minLength(?string $value, int $length): bool
     {
         return UTF8::strlen($value) >= $length;
     }
@@ -44,11 +44,11 @@ class Valid
     /**
      * Checks that a field is short enough.
      *
-     * @param string $value value
+     * @param string|null $value value
      * @param integer $length maximum length required
      * @return  boolean
      */
-    public static function maxLength(string $value, int $length): bool
+    public static function maxLength(?string $value, int $length): bool
     {
         return UTF8::strlen($value) <= $length;
     }
@@ -56,11 +56,11 @@ class Valid
     /**
      * Checks that a field is exactly the right length.
      *
-     * @param string $value value
+     * @param string|null $value value
      * @param integer|array $length exact length required, or array of valid lengths
      * @return  boolean
      */
-    public static function exactLength(string $value, $length): bool
+    public static function exactLength(?string $value, $length): bool
     {
         if (is_array($length)) {
             foreach ($length as $strlen) {
@@ -77,11 +77,11 @@ class Valid
     /**
      * Checks that a field is exactly the value required.
      *
-     * @param string $value value
+     * @param string|null $value value
      * @param string $required required value
      * @return  boolean
      */
-    public static function equals(string $value, string $required): bool
+    public static function equals(?string $value, string $required): bool
     {
         return ($value === $required);
     }
@@ -91,11 +91,11 @@ class Valid
      * @link  http://www.iamcal.com/publish/articles/php/parsing_email/
      * @link  http://www.w3.org/Protocols/rfc822/
      *
-     * @param string $email e-mail address
+     * @param string|null $email e-mail address
      * @param bool $strict strict e-mail checking
      * @return boolean
      */
-    public static function email(string $email, bool $strict = FALSE): bool
+    public static function email(?string $email, bool $strict = FALSE): bool
     {
         if ($strict) {
             return filter_var(filter_var($email, FILTER_SANITIZE_STRING), FILTER_VALIDATE_EMAIL) !== FALSE;
@@ -109,10 +109,10 @@ class Valid
      *
      * @link  http://php.net/checkdnsrr  not added to Windows until PHP 5.3.0
      *
-     * @param string $email email address
+     * @param string|null $email email address
      * @return  boolean
      */
-    public static function emailDomain(string $email): bool
+    public static function emailDomain(?string $email): bool
     {
         // Empty fields cause issues with checkdnsrr()
         if (!self::notEmpty($email)) {
@@ -144,10 +144,10 @@ class Valid
     /**
      * Validate a URL.
      *
-     * @param string $url URL
+     * @param string|null $url URL
      * @return  boolean
      */
-    public static function url(string $url): bool
+    public static function url(?string $url): bool
     {
         // Based on http://www.apps.ietf.org/rfc/rfc1738.html#sec-5
         if (!preg_match(
@@ -206,11 +206,11 @@ class Valid
     /**
      * Validate an IP.
      *
-     * @param string $ip IP address
+     * @param string|null $ip IP address
      * @param boolean $allow_private allow private IP networks
      * @return  boolean
      */
-    public static function ip(string $ip, bool $allow_private = TRUE): bool
+    public static function ip(?string $ip, bool $allow_private = TRUE): bool
     {
         // Do not allow reserved addresses
         $flags = FILTER_FLAG_NO_RES_RANGE;
@@ -226,14 +226,14 @@ class Valid
     /**
      * Validates a credit card number, with a Luhn check if possible.
      *
-     * @param integer $number credit card number
+     * @param int|null $number credit card number
      * @param string|array $type card type, or an array of card types
      *
      * @return  boolean
      *
      * @throws Exception
      */
-    public static function creditCard(int $number, $type = NULL): bool
+    public static function creditCard(?int $number, $type = NULL): bool
     {
         // Remove all non-digit characters from the number
         if (($number = preg_replace('/\D+/', '', $number)) === '') {
@@ -439,13 +439,13 @@ class Valid
     /**
      * Tests if a number is within a range.
      *
-     * @param string $number number to check
+     * @param string|null $number number to check
      * @param integer $min minimum value
      * @param integer $max maximum value
-     * @param integer $step increment size
+     * @param int|null $step increment size
      * @return  boolean
      */
-    public static function range(string $number, int $min, int $max, int $step = NULL): bool
+    public static function range(?string $number, int $min, int $max, int $step = NULL): bool
     {
         if ($number < $min || $number > $max) {
             // Number is outside of range
