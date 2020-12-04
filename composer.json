@@ -10,6 +10,10 @@
   ],
   "authors": [
     {
+      "name": "Paweł Jarzyniak",
+      "role": "developer"
+    },
+    {
       "name": "Tobias Oitzinger",
       "role": "developer"
     },

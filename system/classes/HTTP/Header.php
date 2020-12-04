@@ -217,6 +217,8 @@ class Header extends ArrayObject
 
         if ($replace || !$this->offsetExists($index)) {
             parent::offsetSet($index, $newval);
+            // After replace I have to return
+            return;
         }
 
         $current_value = $this->offsetGet($index);

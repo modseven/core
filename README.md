@@ -10,6 +10,8 @@
 
 *This project is in development state and not finished yet*
 
+Edit: It runs :)
+
 Initially this was for personal use only. But it happens that there were more and more requests if original "Koseven" would support 
 namespaces and PSR. As it does not since it needs to be compatible with "Kohana" this repo was created.
 

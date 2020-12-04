@@ -50,9 +50,9 @@ class Request implements HTTP\Request
 
     /**
      * the x-requested-with header which most likely will be xmlhttprequest
-     * @var  string
+     * @var  ?string
      */
-    protected string $_requested_with;
+    protected ?string $_requested_with = null;
 
     /**
      * method: GET, POST, PUT, DELETE, HEAD, etc

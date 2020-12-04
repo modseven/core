@@ -127,7 +127,7 @@ class Cookie
         unset($_COOKIE[$name]);
 
         // Nullify the cookie and make it expire
-        return self::_setcookie($name, NULL, -86400, static::$path, static::$domain, static::$secure, static::$httponly);
+        return self::_setcookie($name, '', -86400, static::$path, static::$domain, static::$secure, static::$httponly);
     }
 
     /**

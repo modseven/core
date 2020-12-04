@@ -128,6 +128,12 @@ if ($conf['cookie']['secure']) {
     \Modseven\Cookie::$secure = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on');
 }
 
+// Cookie domain
+\Modseven\Cookie::$domain = $conf['cookie']['domain'];
+
+// Session type, if other than native
+//\Modseven\Session::$default = 'database';
+
 // Bootstrap the application
 require APPPATH . 'routes.php';
 

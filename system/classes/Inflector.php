@@ -26,9 +26,9 @@ class Inflector
 
     /**
      * uncountable words
-     * @var array
+     * @var array|null
      */
-    protected static array $uncountable;
+    protected static ?array $uncountable = null;
 
     /**
      * irregular words
@@ -118,7 +118,7 @@ class Inflector
     {
         if (static::$uncountable === NULL) {
             // Cache and Make uncountables mirrored
-            static::$uncountable = array_combine(\Modseven\Config::instance()->load('inflector')->uncountable, static::$uncountable);
+            static::$uncountable = array_fill_keys(\Modseven\Config::instance()->load('inflector')->uncountable, null);
         }
 
         return isset(static::$uncountable[strtolower($str)]);

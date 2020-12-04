@@ -71,7 +71,7 @@ class Curl extends External
         $response_header = $response->headers();
 
         // Implement the standard parsing parameters
-        $options[CURLOPT_HEADERFUNCTION] = [$response_header, 'parse_header_string'];
+        $options[CURLOPT_HEADERFUNCTION] = [$response_header, 'parseHeaderString'];
         $this->_options[CURLOPT_RETURNTRANSFER] = TRUE;
         $this->_options[CURLOPT_HEADER] = FALSE;
 

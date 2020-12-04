@@ -15,6 +15,7 @@ return [
         'salt' => FALSE,
         'httponly' => FALSE,
         'secure' => FALSE,
+        'domain' => NULL,
     ],
     'view_template' => '',
     'trusted_hosts' => [
