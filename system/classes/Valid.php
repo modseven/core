@@ -13,6 +13,7 @@
 
 namespace Modseven;
 
+use ArrayAccess;
 use ArrayObject;
 
 class Valid
@@ -503,12 +504,12 @@ class Valid
     /**
      * Checks if a field matches the value of another field.
      *
-     * @param array $array array of values
+     * @param array|ArrayAccess $array array of values
      * @param string $field field name
      * @param string $match field name to match
      * @return  boolean
      */
-    public static function matches(array $array, string $field, string $match): bool
+    public static function matches($array, string $field, string $match): bool
     {
         return ($array[$field] === $array[$match]);
     }
