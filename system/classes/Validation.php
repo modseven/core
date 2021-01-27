@@ -30,7 +30,7 @@ class Validation implements ArrayAccess
     protected array $_labels = [];
 
     // Field labels
-    protected array $_empty_rules = ['not_empty', 'matches'];
+    protected array $_empty_rules = ['notEmpty', 'matches'];
 
     // Rules that are executed even when the value is empty
     protected array $_errors = [];
