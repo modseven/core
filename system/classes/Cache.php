@@ -46,7 +46,7 @@ use Psr\Cache\CacheItemInterface;
 use Psr\SimpleCache\CacheInterface;
 use Psr\Cache\CacheItemPoolInterface;
 
-class Cache implements CacheItemPoolInterface
+class Cache implements CacheItemPoolInterface, CacheInterface
 {
     /**
      * Cache instances
@@ -146,6 +146,28 @@ class Cache implements CacheItemPoolInterface
     }
 
     /**
+     * Determines whether an item is present in the cache - PSR-16
+     *
+     * NOTE: It is recommended that has() is only to be used for cache warming type purposes
+     * and not to be used within your live applications operations for get/set, as this method
+     * is subject to a race condition where your has() will return true and immediately after,
+     * another script can remove it, making the state of your app out of date.
+     *
+     * @param string $key The cache item key.
+     *
+     * @return bool
+     *
+     * @throws Exception
+     * @throws InvalidArgumentException
+     *   MUST be thrown if the $key string is not a legal value.
+     */
+    public function has($key)
+    {
+        return $this->hasItem($key);
+    }
+
+
+    /**
      * Confirms if the cache contains specified cache item.
      *
      * Note: This method MAY avoid retrieving the cached value for performance reasons.
@@ -168,6 +190,29 @@ class Cache implements CacheItemPoolInterface
 
         return $this->_driver->has($this->_sanitizeId((string)$key));
     }
+
+    /**
+     * Fetches a value from the cache - PSR 16
+     *
+     * @param string $key The unique key of this item in the cache.
+     * @param mixed $default Default value to return if the key does not exist.
+     *
+     * @return mixed The value of the item from the cache, or $default in case of cache miss.
+     *
+     * @throws InvalidArgumentException
+     * @throws Exception
+     *   MUST be thrown if the $key string is not a legal value.
+     */
+    public function get($key, $default = null)
+    {
+        if (!is_scalar($key) && (is_object($key) && !method_exists($key, '__toString')))
+        {
+            throw new InvalidArgumentException('Cache key must be a string or Object which can be converted to string.');
+        }
+
+        return $this->_driver->get($this->_sanitizeId((string)$key));
+    }
+
 
     /**
      * Returns a Cache Item representing the specified key.
@@ -423,7 +468,7 @@ class Cache implements CacheItemPoolInterface
      *
      * @param   string   $key       Cache key
      * @param   mixed    $data      data
-     * @param   integer  $lifetime  lifetime [Optional]
+     * @param   integer|null  $lifetime  lifetime [Optional]
      * @param   array    $tags      tags [Optional]
      *
      * @return  bool
@@ -476,7 +521,7 @@ class Cache implements CacheItemPoolInterface
      * @throws InvalidArgumentException
      * @throws Exception
      */
-    public function setMultiple($values, $ttl) : bool
+    public function setMultiple($values, $ttl = null) : bool
     {
         $items = [];
 
