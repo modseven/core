@@ -763,6 +763,11 @@ class Core
             throw new Exception($e->getMessage(), null, $e->getCode(), $e);
         }
 
+        // composer 2.0 changed structure of installed.json
+        if(isset($installed['packages'])) {
+            $installed = $installed['packages'];
+        }
+
         // Only register init.php files from modules which have "modseven" set to true
         foreach ($installed as $module)
         {
