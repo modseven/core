@@ -298,7 +298,7 @@ class File extends Driver implements GarbageCollect
                 try
                 {
                     // Handle ignore files
-                    if (in_array($file->getFilename(), $this->config('ignore_on_delete'), true))
+                    if (in_array($file->getFilename(), $this->_config['ignore_on_delete'], true))
                     {
                         $delete = false;
                     }
