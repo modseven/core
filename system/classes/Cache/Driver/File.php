@@ -135,7 +135,7 @@ class File extends Driver implements GarbageCollect
             }
 
             $this->isHit = true;
-            return unserialize($cache, false);
+            return unserialize($cache, ['allowed_classes' => false]);
         }
         catch (ErrorException $e)
         {
