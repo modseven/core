@@ -53,11 +53,11 @@ class Exception extends \Exception
      *         array(':user' => $user));
      *
      * @param string $message error message
-     * @param array $variables translation variables
+     * @param array|null $variables translation variables
      * @param integer|string $code the exception code
-     * @param Throwable $previous Previous throwable
+     * @param Throwable|null $previous Previous throwable
      */
-    public function __construct(string $message = '', ?array $variables = NULL, int $code = 0, Throwable $previous = NULL)
+    public function __construct(string $message = '', ?array $variables = null, int|string $code = 0, ?Throwable $previous = null)
     {
         // Set the message
         $message = I18n::get([$message, $variables]);
