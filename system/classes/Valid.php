@@ -13,6 +13,7 @@
 
 namespace Modseven;
 
+use ArrayAccess;
 use ArrayObject;
 
 class Valid
@@ -289,10 +290,10 @@ class Valid
      * Validate a number against the [Luhn](http://en.wikipedia.org/wiki/Luhn_algorithm)
      * (mod10) formula.
      *
-     * @param string $number number to check
+     * @param string|null $number number to check
      * @return  boolean
      */
-    public static function luhn(string $number): bool
+    public static function luhn(?string $number): bool
     {
         if (!ctype_digit($number)) {
             // Luhn can only be used on numbers!
@@ -345,10 +346,10 @@ class Valid
     /**
      * Tests if a string is a valid date string.
      *
-     * @param string $str date to check
+     * @param string|null $str date to check
      * @return  boolean
      */
-    public static function date(string $str): bool
+    public static function date(?string $str): bool
     {
         return (strtotime($str) !== FALSE);
     }
@@ -356,11 +357,11 @@ class Valid
     /**
      * Checks whether a string consists of alphabetical characters only.
      *
-     * @param string $str input string
+     * @param string|null $str input string
      * @param boolean $utf8 trigger UTF-8 compatibility
      * @return  boolean
      */
-    public static function alpha(string $str, bool $utf8 = FALSE): bool
+    public static function alpha(?string $str, bool $utf8 = FALSE): bool
     {
         if ($utf8 === TRUE) {
             return (bool)preg_match('/^\pL++$/uD', $str);
@@ -372,11 +373,11 @@ class Valid
     /**
      * Checks whether a string consists of alphabetical characters and numbers only.
      *
-     * @param string $str input string
+     * @param string|null $str input string
      * @param boolean $utf8 trigger UTF-8 compatibility
      * @return  boolean
      */
-    public static function alphaNumeric(string $str, bool $utf8 = FALSE): bool
+    public static function alphaNumeric(?string $str, bool $utf8 = FALSE): bool
     {
         if ($utf8 === TRUE) {
             return (bool)preg_match('/^[\pL\pN]++$/uD', $str);
@@ -388,11 +389,11 @@ class Valid
     /**
      * Checks whether a string consists of alphabetical characters, numbers, underscores and dashes only.
      *
-     * @param string $str input string
+     * @param string|null $str input string
      * @param boolean $utf8 trigger UTF-8 compatibility
      * @return  boolean
      */
-    public static function alphaDash(string $str, bool $utf8 = FALSE): bool
+    public static function alphaDash(?string $str, bool $utf8 = FALSE): bool
     {
         if ($utf8 === TRUE) {
             $regex = '/^[-\pL\pN_]++$/uD';
@@ -410,7 +411,7 @@ class Valid
      * @param boolean $utf8 trigger UTF-8 compatibility
      * @return  boolean
      */
-    public static function digit(string $str, bool $utf8 = FALSE): bool
+    public static function digit(?string $str, bool $utf8 = FALSE): bool
     {
         if ($utf8 === TRUE) {
             return (bool)preg_match('/^\pN++$/uD', $str);
@@ -425,10 +426,10 @@ class Valid
      * Uses {@link http://www.php.net/manual/en/function.localeconv.php locale conversion}
      * to allow decimal point to be locale specific.
      *
-     * @param string $str input string
+     * @param string|null $str input string
      * @return  boolean
      */
-    public static function numeric(string $str): bool
+    public static function numeric(?string $str): bool
     {
         // Get the decimal point for the current locale
         [$decimal] = array_values(localeconv());
@@ -492,10 +493,10 @@ class Valid
      * is quite flexible as it does not require an initial "#" and also allows for
      * the short notation using only three instead of six hexadecimal characters.
      *
-     * @param string $str input string
+     * @param string|null $str input string
      * @return  boolean
      */
-    public static function color(string $str): bool
+    public static function color(?string $str): bool
     {
         return (bool)preg_match('/^#?+[0-9a-f]{3}(?:[0-9a-f]{3})?$/iD', $str);
     }
@@ -503,12 +504,12 @@ class Valid
     /**
      * Checks if a field matches the value of another field.
      *
-     * @param array $array array of values
+     * @param array|ArrayAccess $array array of values
      * @param string $field field name
      * @param string $match field name to match
      * @return  boolean
      */
-    public static function matches(array $array, string $field, string $match): bool
+    public static function matches($array, string $field, string $match): bool
     {
         return ($array[$field] === $array[$match]);
     }

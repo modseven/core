@@ -4,7 +4,7 @@ return [
     'default'   => 'file',                             // allows to specify default cache directl from config file
     'prefix'    => 'cache1_',                          // used to avoid duplicates when using _sanitize_id
     'file'      => [
-        'driver'           => \Modseven\Cache\File::class,
+        'driver'           => \Modseven\Cache\Driver\File::class,
         'cache_dir'        => APPPATH . 'cache',
         'default_expire'   => 3600,
         'ignore_on_delete' => [
