@@ -139,12 +139,12 @@
         <tbody>
         <tr>
             <th>PHP Version</th>
-            <?php if (PHP_VERSION_ID >= 70400): ?>
+            <?php if (PHP_VERSION_ID >= 80000): ?>
                 <td class="pass">
                     <?php echo PHP_VERSION ?>
                 </td>
             <?php else: $failed = TRUE ?>
-                <td class="fail">Koseven requires PHP 7.4 or newer, this version is
+                <td class="fail">Koseven requires PHP 8.0 or newer, this version is
                     <?php echo PHP_VERSION ?>.
                 </td>
             <?php endif ?>
