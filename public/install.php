@@ -343,7 +343,7 @@
         </tr>
         <tr>
           <th>Redis Enabled</th>
-            <?php if (extension_loaded('imagick')): ?>
+            <?php if (extension_loaded('redis')): ?>
               <td class="pass">Pass</td>
             <?php else: ?>
               <td class="warning">Koseven can use <a href="https://redislabs.com/lp/php-redis/">Redis</a> can be used for Caching using Redis Driver.</td>
