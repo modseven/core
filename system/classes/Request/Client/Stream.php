@@ -90,7 +90,7 @@ class Stream extends External
         $http_response = array_shift($meta_data['wrapper_data']);
 
         // Fetch respone protocol and status
-        preg_match_all('/(\w+/\d\.\d) (\d{3})/', $http_response, $matches);
+        preg_match_all('/(\w+\/\d\.\d) (\d{3})/', $http_response, $matches);
 
         $protocol = $matches[1][0];
         $status = (int)$matches[2][0];
