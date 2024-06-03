@@ -85,7 +85,7 @@ class Log extends LogLevel {
      * @param mixed  $message   Message to log, either string or object with __toString
      * @param array  $context   Contextual Array
      */
-    public function log(string $level, $message, array $context = []) : void
+    public function log($level, $message, array $context = []) : void
     {
         // Check if log level is in RFC 5424, if not throw an Exception (PSR-3)
         if ( ! defined('static::'.strtoupper($level)))
